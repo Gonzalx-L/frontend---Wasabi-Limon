@@ -1,0 +1,12 @@
+<nav class="navbar navbar-dark bg-dark px-3">
+  <!-- ☰ solo visible en dispositivos pequeños -->
+  <button class="btn btn-outline-light d-lg-none me-2" (click)="toggleSidebar.emit()">
+    ☰
+  </button>
+
+  <span class="navbar-brand mb-0 h1">Panel de Control</span>
+
+  <div class="ms-auto">
+    <a class="btn btn-outline-light btn-sm" routerLink="/login">Cerrar Sesión</a>
+  </div>
+</nav>

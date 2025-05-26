@@ -1,0 +1,57 @@
+// .container {
+//   padding: 3rem 6rem; // ✅ menos padding general
+//   margin-left: auto;
+//   margin-right: auto;
+//   max-width: 1000px; // opcional para limitar el ancho en pantallas grandes
+// }
+.container {
+  max-width: 900px; // Limita el ancho máximo
+  margin-left: auto; // Centrado dentro del espacio disponible
+  margin-right: auto;
+  padding: 2rem 1rem;
+}
+
+.grid-categorias {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // ✅ siempre 2 columnas en desktop
+  gap: 1rem;
+  justify-content: center;
+}
+
+.categoria-card {
+  min-height: 70px;
+  width: 100%;
+}
+
+.card {
+  background-color: #f8f9fa;
+  transition: transform 0.2s ease-in-out;
+  height: 100%;
+
+  &:hover {
+    transform: scale(1.02);
+    background-color: #e2e6ea;
+    cursor: pointer;
+  }
+
+  .card-body {
+    padding: 0.5rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #343a40;
+  }
+}
+
+// ✅ Media query para pantallas pequeñas (móvil)
+@media (max-width: 576px) {
+  .grid-categorias {
+    grid-template-columns: 1fr; // 🔁 cambia a 1 columna en pantallas pequeñas
+  }
+
+  .container {
+    padding: 1rem; // menos padding en móvil
+  }
+}

@@ -1,0 +1,19 @@
+<div class="d-flex">
+  <!-- Sidebar: visible solo si sidebarVisible es true -->
+  <app-sidebar
+    *ngIf="sidebarVisible"
+    (closeSidebar)="hideSidebar()"
+    class="bg-dark"
+  ></app-sidebar>
+
+  <!-- Contenedor principal -->
+  <div class="flex-grow-1 w-100">
+    <!-- Navbar siempre visible -->
+    <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+    <!-- Contenido de cada ruta -->
+    <div class="container-fluid p-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
