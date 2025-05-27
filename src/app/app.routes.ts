@@ -9,15 +9,24 @@ import { PlatosComponent } from './components/platos/platos.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
-    path: 'categoria',
+    path: '',
     component: LayoutComponent,
-    children: [{ path: '', component: CategoriaComponent }],
+    children: [
+      { path: 'categoria', component: CategoriaComponent },
+      { path: 'categoria/:codCat/platos', component: PlatosComponent },
+      
+    ],
   },
-  {
-    path: 'categoria/:codCat/platos',
-    component: LayoutComponent,
-    children: [{ path: '', component: PlatosComponent }],
-  },
+  // {
+  //   path: 'categoria',
+  //   component: LayoutComponent,
+  //   children: [{ path: '', component: CategoriaComponent }],
+  // },
+  // {
+  //   path: 'categoria/:codCat/platos',
+  //   component: LayoutComponent,
+  //   children: [{ path: '', component: PlatosComponent }],
+  // },
   {
     path: 'admi',
     children: [

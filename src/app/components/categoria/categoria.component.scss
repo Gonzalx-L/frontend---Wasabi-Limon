@@ -1,19 +1,13 @@
-// .container {
-//   padding: 3rem 6rem; // ✅ menos padding general
-//   margin-left: auto;
-//   margin-right: auto;
-//   max-width: 1000px; // opcional para limitar el ancho en pantallas grandes
-// }
 .container {
-  max-width: 900px; // Limita el ancho máximo
-  margin-left: auto; // Centrado dentro del espacio disponible
+  max-width: 900px;
+  margin-left: auto;
   margin-right: auto;
   padding: 2rem 1rem;
 }
 
 .grid-categorias {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); // ✅ siempre 2 columnas en desktop
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   justify-content: center;
 }
@@ -45,13 +39,13 @@
   }
 }
 
-// ✅ Media query para pantallas pequeñas (móvil)
+
 @media (max-width: 576px) {
   .grid-categorias {
-    grid-template-columns: 1fr; // 🔁 cambia a 1 columna en pantallas pequeñas
+    grid-template-columns: 1fr;
   }
 
   .container {
-    padding: 1rem; // menos padding en móvil
+    padding: 1rem; 
   }
 }
