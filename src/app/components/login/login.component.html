@@ -1,3 +1,25 @@
-<p>login workccccccccccs!</p>
-<h1> {{nombre}} </h1>
-<button routerLink="/categoria">   Ir a categoria    </button>
+<div class="login-container">
+  <div class="login-box">
+    <h2>Iniciar Sesión</h2>
+
+    <form (ngSubmit)="login()" class="login-form">
+      <label for="tipoUsuario">Tipo de usuario</label>
+      <select id="tipoUsuario" [(ngModel)]="tipoUsuario" name="tipoUsuario" required>
+        <option value="mozo">Mozo</option>
+        <option value="admin">Administrador</option>
+      </select>
+
+      <label for="correo">Correo electrónico</label>
+      <input type="email" id="correo" [(ngModel)]="correo" name="correo" required />
+
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" [(ngModel)]="password" name="password" required />
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+
+      <button type="submit">Ingresar</button>
+    </form>
+  </div>
+</div>
