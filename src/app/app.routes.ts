@@ -5,6 +5,7 @@ import { BarraizqComponent } from './components/administrador/barraizq/barraizq.
 import { DnnComponent } from './components/administrador/dnn/dnn.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { PlatosComponent } from './components/platos/platos.component';
+import { OrdenesComponent } from './components/ordenes/ordenes.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
     children: [
       { path: 'categoria', component: CategoriaComponent },
       { path: 'categoria/:codCat/platos', component: PlatosComponent },
+      { path: 'ordenes', component: OrdenesComponent },
       
     ],
   },
