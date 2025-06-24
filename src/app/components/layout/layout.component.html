@@ -1,9 +1,5 @@
 <div class="d-flex">
-  <app-sidebar
-    *ngIf="sidebarVisible"
-    (closeSidebar)="hideSidebar()"
-    class="bg-dark"
-  >
+  <app-sidebar *ngIf="sidebarVisible" (closeSidebar)="hideSidebar()" class="bg-dark">
   </app-sidebar>
 
   <div class="flex-grow-1 w-100">
@@ -24,11 +20,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Carrito de Pedido</h5>
-          <button
-            type="button"
-            class="btn-close"
-            (click)="onCloseCart()"
-          ></button>
+          <button type="button" class="btn-close" (click)="onCloseCart()"></button>
         </div>
 
         <div class="modal-body">
@@ -49,10 +41,7 @@
                 <td>{{ item.precio | currency }}</td>
                 <td>{{ item.subtotal | currency }}</td>
                 <td>
-                  <button
-                    class="btn btn-sm btn-danger me-1"
-                    (click)="onRemove(item)"
-                  >
+                  <button class="btn btn-sm btn-danger me-1" (click)="onRemove(item)">
                     –
                   </button>
                   <button class="btn btn-sm btn-success" (click)="onAdd(item)">
@@ -69,11 +58,7 @@
             Cerrar
           </button>
           <button class="btn btn-danger" (click)="onCancel()">Cancelar</button>
-          <button
-            class="btn btn-primary"
-            [disabled]="cartDetalle.length === 0"
-            (click)="onConfirm()"
-          >
+          <button class="btn btn-primary" [disabled]="cartDetalle.length === 0" (click)="onConfirm()">
             Confirmar
           </button>
         </div>
