@@ -1,12 +1,16 @@
 <div class="sidebar" [ngClass]="collapsed ? 'sidebar-collapsed' : ''">
-    <div class="sidebar-encabezado logo-container">
-        <button class="logo" (click)="toggleCollapsed()">WL</button>
+    
+    <div class="logo-container">
+        <button class="logo" (click)="toggleCollapsed()">
+            <img id="logo" src="WasabiLimón-Logo.png" alt="Logo">
+        </button>
         <div class="logo-text" [@fadeInOut] *ngIf="collapsed">WasabiLimón</div>
         <button class="btn-close" [@rotate] (click)="closeSidebar()" *ngIf="collapsed">
             <i class="fa-solid fa-xmark"></i>
         </button>
     </div>
-    <div class="sidebar-cuerpo scrollwrap scrollwrap_delayed">
+
+    <div class="scrollwrap scrollwrap_delayed">
         <ul class="sidebar-nav">
             <li class="sidebar-nav-item" *ngFor="let data of navData">
                 <a class="sidebar-nav-link" *ngIf="data.items && data.items.length >0" (click)="handleClick(data)">
@@ -31,15 +35,15 @@
 
     </div>
 
-  <!-- <div class="sidebar-footer">
+  <div class="sidebar-footer">
     <ul class="sidebar-nav">
       <li class="sidebar-nav-item" *ngFor="let data1 of navDataCuenta">
-        <a class="sidebar-nav-link" [routerLink]="[data1.routerLink]" routerLinkActive="active"
+        <a class="sidebar-nav-link sidebar-nav-link-close" [routerLink]="[data1.routerLink]" routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: true }">
           <i class="sidebar-link-icon" [class]="data1.icon"></i>
           <span class="sidebar-link-text" [@fadeInOut] *ngIf="collapsed">{{ data1.label }}</span>
         </a>
       </li>
     </ul>
-  </div> -->
+  </div>
 </div>

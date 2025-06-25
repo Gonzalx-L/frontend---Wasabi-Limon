@@ -56,7 +56,7 @@ export const navbarData: ISidebarData[] = [
 export const navbarDataCuenta=[
   {
     routerLink: 'xx',
-    icon: 'fa-solid fa-user-tie',
-    label: 'Cuenta',
+    icon: 'fa-solid fa-right-to-bracket',
+    label: 'Salir',
   }
 ]
