@@ -1,9 +1,10 @@
 import { Component, Output, EventEmitter, OnInit, HostListener, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { navbarData } from './nav-data';
+import { navbarData, navbarDataCuenta  } from './nav-data';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { trigger, transition, style, animate, keyframes } from '@angular/animations';
+import { SublevelMenuComponent } from "./sublevel-menu.component";
+import { fadeInOut, ISidebarData, rotate} from './helper';
 
 interface SideBarToggle {
   screenWidth: number;
@@ -12,33 +13,12 @@ interface SideBarToggle {
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, SublevelMenuComponent],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
   animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('350ms', style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate('350ms', style({ opacity: 0 }))
-      ])
-    ]),
-    trigger('rotate', [
-      transition(':enter', [
-        style({ transform: 'rotate(0deg)', opacity: 0 }),
-        animate(
-          '400ms ease-out',
-          keyframes([
-            style({ transform: 'rotate(0deg)', opacity: 0.5, offset: 0.5 }),
-            style({ transform: 'rotate(360deg)', opacity: 1, offset: 1 }),
-          ])
-        )
-      ])
-    ])
-
+    fadeInOut,
+    rotate
   ]
 })
 export class SidebarComponent implements OnInit {
@@ -47,6 +27,8 @@ export class SidebarComponent implements OnInit {
   collapsed = false;
   screenWidth = 0;
   navData = navbarData;
+  navDataCuenta = navbarDataCuenta;
+  multiple: boolean = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
@@ -65,10 +47,10 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  if (isPlatformBrowser(this.platformId)) {
-    this.screenWidth = window.innerWidth;
+    if (isPlatformBrowser(this.platformId)) {
+      this.screenWidth = window.innerWidth;
+    }
   }
-}
 
 
   toggleCollapsed(): void {
@@ -79,5 +61,16 @@ export class SidebarComponent implements OnInit {
   closeSidebar(): void {
     this.collapsed = false;
     this.onToggleSideBar.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth })
+  }
+
+  handleClick(item: ISidebarData):void{
+    if(!this.multiple){
+      for(let modelItem of this.navData){
+        if(item !== modelItem && modelItem.expanded){
+          modelItem.expanded= false;
+        }
+      }
+    }
+    item.expanded= !item.expanded
   }
 }

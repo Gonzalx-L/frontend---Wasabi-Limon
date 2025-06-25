@@ -68,7 +68,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: calc(100% - 3.65rem);
     cursor: pointer;
 
     .sidebar-nav-item {
@@ -96,12 +95,14 @@
                 margin-left: 1.5rem;
             }
         }
-    }
 
-    .sidebar-nav-item:hover {
-        .sidebar-nav-link {
+        .sidebar-nav-link:hover {
             background-color: #fff;
             color: #000;
+
+            .menu-collapse-icon {
+                color: #000;
+            }
         }
     }
 }
@@ -109,8 +110,88 @@
 .active {
     background-color: #fff;
 
+    .menu-collapse-icon,
     .sidebar-link-icon,
     .sidebar-link-text {
         color: #000;
     }
+}
+
+.menu-collapse-icon {
+    font-size: 25px;
+    width: 2rem;
+    min-width: 2rem;
+    margin: auto 0.5rem auto auto;
+    text-align: center;
+    color: #f3f3f3;
+}
+
+.sublevel-sidebar {
+    list-style: none;
+    margin-left: 10px;
+
+    .sublevel-sidebar-item {
+        .sublevel-sidebar-link {
+            display: flex;
+            align-items: center;
+            height: 3rem;
+            color: #898989;
+            text-decoration: none;
+            border-radius: 0.625rem;
+            transition: all .3s ease;
+
+            .sublevel-link-icon {
+                font-size: 4px;
+                width: 0.5rem;
+                min-width: 0.5rem;
+                margin: 0 0.5rem;
+                text-align: center;
+            }
+
+            .sublevel-link-text {
+                margin-left: 0.5rem;
+            }
+        }
+
+        .sublevel-sidebar-link:hover {
+            color: #f3f3f3;
+        }
+    }
+}
+
+//scroll
+.scrollwrap {
+    overflow-y: auto;
+    visibility: hidden;
+    height: calc(100% - 3.65rem);
+}
+
+.sidebar-nav,
+.scrollwrap:hover,
+.scrollwrap:focus {
+    visibility: visible;
+}
+
+.scrollwrap_delayed {
+    transition: visibility 0.5s 0.2s;
+}
+
+.scrollwrap_delayed:hover {
+    transition: visibility 0.2s 0.2s;
+}
+
+//Compatibilidad con chorme, adge y safari
+.scrollwrap::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scrollwrap::-webkit-scrollbar-thumb {
+    background-color: #556268;
+    border-radius: 20px;
+}
+
+//Compatibilidad con firefox
+.scrollwrap {
+    scrollbar-width: thin;
+    scrollbar-color: #556268 transparent;
 }
