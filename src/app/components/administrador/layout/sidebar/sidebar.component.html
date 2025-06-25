@@ -2,15 +2,19 @@
     <div class="logo-container">
         <button class="logo" (click)="toggleCollapsed()">WL</button>
         <div class="logo-text" *ngIf="collapsed">WasabiLimón</div>
-        <button class="btn-closee" (click)="closeSidebar()" *ngIf="collapsed">
+        <button class="btn-close" [@rotate] (click)="closeSidebar()" *ngIf="collapsed">
             <i class="fa-solid fa-xmark"></i>
         </button>
     </div>
     <ul class="sidebar-nav">
         <li class="sidebar-nav-item" *ngFor="let data of navData">
-            <a class="sidebar-nav-link" [routerLink]="[data.routerLink]">
+            <a class="sidebar-nav-link" 
+                [routerLink]="[data.routerLink]"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact:true}"
+            >
                 <i class="sidebar-link-icon" [class]="data.icon"></i>
-                <span class="sidebar-link-text" *ngIf="collapsed">{{ data.label }}</span>
+                <span class="sidebar-link-text" [@fadeInOut] *ngIf="collapsed">{{ data.label }}</span>
             </a>
         </li>
     </ul>

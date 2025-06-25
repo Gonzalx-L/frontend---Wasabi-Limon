@@ -34,17 +34,22 @@
             color: #fff;
         }
 
-        .btn-closee {
+        .btn-close {
+            all: unset;
             margin-left: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
             width: 2rem;
             height: 2rem;
             border-radius: 50%;
             background-color: transparent;
             border: none;
-            .fa-solid{
-            color: #fff;
-            font-size: 30px;
+
+            .fa-solid {
+                color: #fff;
+                font-size: 26px;
             }
 
         }
@@ -98,5 +103,14 @@
             background-color: #fff;
             color: #000;
         }
+    }
+}
+
+.active {
+    background-color: #fff;
+
+    .sidebar-link-icon,
+    .sidebar-link-text {
+        color: #000;
     }
 }
