@@ -2,7 +2,7 @@
     
     <div class="logo-container">
         <button class="logo" (click)="toggleCollapsed()">
-            <img id="logo" src="WasabiLimón-Logo.png" alt="Logo">
+            <img id="logo" src="img/WasabiLimón-Logo.png" alt="Logo">
         </button>
         <div class="logo-text" [@fadeInOut] *ngIf="collapsed">WasabiLimón</div>
         <button class="btn-close" [@rotate] (click)="closeSidebar()" *ngIf="collapsed">

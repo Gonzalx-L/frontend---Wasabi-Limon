@@ -1,6 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .body{
     width: calc(100% - 5rem);
-    height: 100vh;
+    //height: 100vh;
+    margin-top: 5.75rem;
     margin-left: 5rem;
     z-index: 0;
     position: relative;
