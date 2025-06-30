@@ -1,1 +1,32 @@
-<p>Inicio</p>
+<div class="inicio">
+    <h1>Inicio - Datos del día de hoy</h1>
+    <div class="contanier-inicio">
+        <div class="contanier-top">
+            <div class="toingresos">
+                <div class="toingresos-content">
+                    <h2 class="toingresos-content-titulo">Ingresos</h2>
+                    <span class="toingresos-content-money ">S/. {{ totalIngresosHoy | number:'1.2-2' }}</span>
+
+                </div>
+                <i class="icon fa-regular fa-money-bill-1"></i>
+            </div>
+            <div class="topedidos">
+                <div class="topedidos-content">
+                    <h2 class="topedidos-content-titulo">Pedidos</h2>
+                    <span class="topedidos-content-money">{{ totalBoletasHoy }}</span>
+                </div>
+                <i class="fa-solid fa-hashtag"></i>
+            </div>
+        </div>
+        <div class="contanier-buttom">
+            <div class="toplatos">
+                <h3>Platos más vendidos</h3>
+                <canvas #chartCanvasPlatos class="toplatos-graficos"></canvas>
+            </div>
+            <div class="topropina">
+                <h3>Propina de los Mozos</h3>
+                <canvas #chartCanvasPropinas class="topropina-graficos"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
