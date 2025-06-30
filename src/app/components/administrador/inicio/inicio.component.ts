@@ -1,13 +1,21 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Chart, ChartType } from 'chart.js/auto';
 import { reportesService } from '../../../services/reportes.service';
+import { SidebarService } from '../../../services/sidebar.service';
 
 @Component({
   selector: 'app-inicio',
   imports: [CommonModule],
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.scss']
+  styleUrls: ['./inicio.component.scss'],
 })
 export class InicioComponent implements AfterViewInit {
   public chartPlatos: Chart | undefined;
@@ -16,11 +24,13 @@ export class InicioComponent implements AfterViewInit {
   public totalIngresosHoy: number = 0.0;
 
   @ViewChild('chartCanvasPlatos') canvasPlatos!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('chartCanvasPropinas') canvasPropina!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('chartCanvasPropinas')
+  canvasPropina!: ElementRef<HTMLCanvasElement>;
 
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object,
-    private reportesService: reportesService
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private reportesService: reportesService,
+    private sidebarService: SidebarService
   ) { }
 
   ngAfterViewInit(): void {
@@ -29,16 +39,22 @@ export class InicioComponent implements AfterViewInit {
       this.graficoPropina();
       this.obtenerNroBoletas();
       this.obtenerIngresosHoy();
+      this.sidebarService.toggleEvent$.subscribe(() => {
+        setTimeout(() => {
+          this.redibujarGraficos();
+        }, 100);
+      });
     }
   }
 
   obtenerNroBoletas() {
     const hoy = new Date();
     const fecha = hoy.toISOString().split('T')[0]; // formato: yyyy-MM-dd
-    this.reportesService.contarBoletasPorFecha("2025-05-22").subscribe((cantidad) => {
-      this.totalBoletasHoy = cantidad;
-      console.log('Total de boletas:', cantidad);
-    });
+    this.reportesService
+      .contarBoletasPorFecha('2025-05-22').subscribe((cantidad) => {
+        this.totalBoletasHoy = cantidad;
+        console.log('Total de boletas:', cantidad);
+      });
   }
 
   obtenerIngresosHoy() {
@@ -47,92 +63,129 @@ export class InicioComponent implements AfterViewInit {
     const month = hoy.getMonth() + 1; //empieza desde 0
     const day = hoy.getDate();
 
-    this.reportesService.ObtenerIngresosReporteFiltro(2025, 5, 22).subscribe((respuesta) => {
-      if (respuesta && respuesta.length > 0) {
-        this.totalIngresosHoy = respuesta[0].ingreso;
-        console.log('✅ Ingresos de hoy:', this.totalIngresosHoy);
-      } else {
-        console.warn('⚠️ No se encontraron ingresos para hoy');
-        this.totalIngresosHoy = 0;
-      }
-    });
+    this.reportesService
+      .ObtenerIngresosReporteFiltro(2025, 5, 22).subscribe((respuesta) => {
+        if (respuesta && respuesta.length > 0) {
+          this.totalIngresosHoy = respuesta[0].ingreso;
+          console.log('✅ Ingresos de hoy:', this.totalIngresosHoy);
+        } else {
+          console.warn('⚠️ No se encontraron ingresos para hoy');
+          this.totalIngresosHoy = 0;
+        }
+      });
   }
 
   //Metodos para los graficos
+
+  private generateColors(length: number): { backgroundColors: string[], borderColors: string[] } {
+    const backgroundColors: string[] = [];
+    const borderColors: string[] = [];
+
+    for (let i = 0; i < length; i++) {
+      const r = Math.floor(Math.random() * 255);
+      const g = Math.floor(Math.random() * 255);
+      const b = Math.floor(Math.random() * 255);
+
+      backgroundColors.push(`rgba(${r}, ${g}, ${b}, 0.2)`);
+      borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`);
+    }
+
+    return { backgroundColors, borderColors };
+  }
+
   graficoPlatos() {
     const canvas = this.canvasPlatos.nativeElement;
 
-    const data = {
-      labels: [
-        'Arroz con Pollo',
-        'Ceviche',
-        'Arroz c/n Marizcos',
-        'Parihuela',
-        'Milanesa de Pollo'
-      ],
-      datasets: [
-        {
-          label: 'Ingresos',
-          data: [12, 32, 20, 21, 4],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)'
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)'
-          ],
-          borderWidth: 1
+    const hoy = new Date();
+    const year = hoy.getFullYear();
+    const month = hoy.getMonth() + 1;
+    const day = hoy.getDate();
+
+    this.reportesService.obtenerComidaReporte(2025, 5, 22).subscribe((data) => {
+      // Extraer nombres y cantidades
+      const labels = data.map((item: any) => item.nom_com);
+      const valores = data.map((item: any) => item.cantidad_pedida);
+
+      const { backgroundColors, borderColors } = this.generateColors(valores.length);
+
+      // Crear gráfico
+      this.chartPlatos = new Chart(canvas, {
+        type: 'bar' as ChartType,
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Cantidad Pedida',
+              data: valores,
+              backgroundColor: backgroundColors,
+              borderColor: borderColors,
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
         }
-      ]
-    };
+      });
 
-    this.chartPlatos = new Chart(canvas, {
-      type: 'bar' as ChartType,
-      data
+      console.log('✅ Gráfico de platos actualizado con datos reales');
     });
-
-    console.log('✅ Gráfico platos creado');
   }
+
   graficoPropina() {
     const canvas = this.canvasPropina.nativeElement;
 
-    const data = {
-      labels: [
-        'Mozo1',
-        'Mozo2',
-        'Mozo3'
-      ],
-      datasets: [
-        {
-          label: 'Propinas',
-          data: [12, 32, 20],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-          ],
-          borderWidth: 1
-        }
-      ]
-    };
+    const hoy = new Date();
+    const year = hoy.getFullYear();
+    const month = hoy.getMonth() + 1;
+    const day = hoy.getDate();
 
-    this.chartPropina = new Chart(canvas, {
-      type: 'bar' as ChartType,
-      data
+
+    this.reportesService.ObtenerPropinaReporteFiltro(2025, 5, 21).subscribe((data) => {
+      // Extraer nombres y cantidades
+      const labels = data.map((item: any) => item.nom_moz);
+      const valores = data.map((item: any) => item.propina);
+
+      const { backgroundColors, borderColors } = this.generateColors(valores.length);
+
+      // Crear gráfico
+      this.chartPropina = new Chart(canvas, {
+        type: 'bar' as ChartType,
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Propina por Mozo',
+              data: valores,
+              backgroundColor: backgroundColors,
+              borderColor: borderColors,
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+      console.log('✅ Gráfico comida creado');
     });
 
-    console.log('✅ Gráfico comida creado');
+  }
+
+  redibujarGraficos() {
+    if (this.chartPlatos) {
+      this.chartPlatos.destroy();
+    }
+    if (this.chartPropina) {
+      this.chartPropina.destroy();
+    }
+
+    setTimeout(() => {
+      this.graficoPlatos();
+      this.graficoPropina();
+    }, 300);
   }
 }
