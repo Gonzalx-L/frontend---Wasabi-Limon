@@ -5,7 +5,7 @@ import { ModalComponent } from "../boletas/modal/modal.component";
 
 @Component({
   selector: 'app-body',
-  imports: [RouterOutlet, CommonModule, ModalComponent],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss'
 })
