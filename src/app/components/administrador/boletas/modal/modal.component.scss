@@ -1,0 +1,102 @@
+.custom-modal {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .modal-dialog {
+    max-width: 1000px;
+    margin: 1.75rem auto;
+  }
+
+  .modal-content {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .document-style {
+    padding: 2rem;
+
+    h1,
+    h5 {
+      color: #2c3e50;
+    }
+
+    p {
+      margin: 0 0 0.5rem 0;
+    }
+
+    strong {
+      color: #34495e;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table th,
+    .table td {
+      vertical-align: middle;
+    }
+
+    .btn-primary {
+      border-radius: 8px;
+      padding: 0.5rem 1.5rem;
+    }
+
+    .btn-close {
+      filter: brightness(0.5);
+    }
+  }
+
+  // RESPONSIVE
+  @media (max-width: 768px) {
+    .modal-dialog {
+      max-width: 95%;
+    }
+
+    .document-style {
+      padding: 1rem;
+
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      h5 {
+        font-size: 1rem;
+      }
+
+      .table th,
+      .table td {
+        font-size: 0.9rem;
+      }
+
+      .btn-primary {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media print {
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #boleta-content {
+    margin: 0 !important;
+    padding: 0.5in !important; // Ajusta según el diseño
+    box-sizing: border-box;
+  }
+}
+
+.pdf-export {
+  padding: 20px;
+  background-color: white;
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  max-width: 700px;
+  margin: 0 auto;
+}
+

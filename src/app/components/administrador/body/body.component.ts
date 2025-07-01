@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ModalComponent } from "../boletas/modal/modal.component";
 
 @Component({
   selector: 'app-body',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, ModalComponent],
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss'
 })

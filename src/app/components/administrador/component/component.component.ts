@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../layout/header/header.component';
 import { BodyComponent } from "../body/body.component";
 import { SidebarService } from '../../../services/sidebar.service';
+import { ModalComponent } from "../boletas/modal/modal.component";
 
 interface SideBarToggle {
   screenWidth: number;
@@ -13,7 +14,7 @@ interface SideBarToggle {
 
 @Component({
   selector: 'app-component',
-  imports: [CommonModule, RouterModule, SidebarComponent, BodyComponent, HeaderComponent],
+  imports: [CommonModule, RouterModule, SidebarComponent, BodyComponent, HeaderComponent, ModalComponent],
   templateUrl: './component.component.html',
   styleUrl: './component.component.scss'
 })
