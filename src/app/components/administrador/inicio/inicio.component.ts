@@ -76,7 +76,6 @@ export class InicioComponent implements AfterViewInit {
   }
 
   //Metodos para los graficos
-
   private generateColors(length: number): { backgroundColors: string[], borderColors: string[] } {
     const backgroundColors: string[] = [];
     const borderColors: string[] = [];

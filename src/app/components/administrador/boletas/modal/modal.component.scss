@@ -19,6 +19,7 @@
     h1,
     h5 {
       color: #2c3e50;
+      font-weight: bold;
     }
 
     p {
@@ -31,11 +32,13 @@
 
     .table {
       margin-bottom: 0;
-    }
 
-    .table th,
-    .table td {
-      vertical-align: middle;
+      th,
+      td {
+        vertical-align: middle;
+        font-size: 0.95rem;
+        padding: 0.5rem;
+      }
     }
 
     .btn-primary {
@@ -52,6 +55,7 @@
   @media (max-width: 768px) {
     .modal-dialog {
       max-width: 95%;
+      margin: 1rem auto;
     }
 
     .document-style {
@@ -67,36 +71,55 @@
 
       .table th,
       .table td {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
 
       .btn-primary {
         width: 100%;
+        padding: 0.6rem;
       }
     }
   }
 }
 
-@media print {
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  #boleta-content {
-    margin: 0 !important;
-    padding: 0.5in !important; // Ajusta según el diseño
-    box-sizing: border-box;
-  }
-}
-
-.pdf-export {
-  padding: 20px;
-  background-color: white;
+#boleta-pdf {
+  position: relative;          
+  top: 0;                      
+  margin: 0;
+  padding: 40px;
+  min-height: 1122px;          // altura de A4 en píxeles a 96dpi
   width: 100%;
-  min-height: 100%;
+  background: white;
+  color: black;
+  font-size: 14px;
+  font-family: 'Segoe UI', sans-serif;
   box-sizing: border-box;
-  max-width: 700px;
-  margin: 0 auto;
+
+  h2, h4 {
+    color: #2c3e50;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem 0 2rem 0;
+  }
+
+  p {
+    margin: 0 0 0.5rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  }
 }
+
 

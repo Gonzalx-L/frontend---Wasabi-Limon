@@ -53,10 +53,7 @@ export class ModalComponent implements OnInit {
       }
     });
   }
-
-
-
-
+  
   closeModal(): void {
     this.isHiding = true;
     setTimeout(() => {
@@ -66,19 +63,26 @@ export class ModalComponent implements OnInit {
   }
 
   imprimir(): void {
-    const element = document.getElementById('boleta-content');
-    if (!element) return;
-
-    const opt = {
-      margin: [-1, 0.3, 0.3, 0.3], 
-      filename: `boleta_${this.boleta?.cod_bol || 'reporte'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
-
-    html2pdf().set(opt).from(element).save();
+    setTimeout(() => {
+      const element = document.getElementById('boleta-pdf');
+      if (!element) {
+        console.error('Elemento #boleta-pdf no encontrado.');
+        return;
+      }
+      const opt = {
+        margin: 0,
+        filename: `boleta_${this.boleta?.cod_bol || 'reporte'}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          scrollY: 0,        // evita scroll vertical que html2canvas captura
+          scrollX: 0
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().from(element).set(opt).save();
+    }, 300); // Le damos tiempo al DOM de pintar los bindings
   }
 
 }

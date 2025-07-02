@@ -3,10 +3,12 @@ import { FiltrosComponent } from "./filtros/filtros.component";
 import { CommonModule } from '@angular/common';
 import { BoletaService } from '../../../services/boleta.service';
 import { ModalService } from '../../../services/modal.service';
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-boletas',
-  imports: [FiltrosComponent, CommonModule],
+  imports: [FiltrosComponent, CommonModule, CdkMenuModule, OverlayModule],
   templateUrl: './boletas.component.html',
   styleUrls: ['./boletas.component.scss']
 })
@@ -17,7 +19,8 @@ export class BoletasComponent implements OnInit {
   tamanioPagina: number = 5;
   maxPaginasVisibles: number = 3;
   filtros: any = {}; // Almacena los filtros recibidos
-  selectedBoleta: string | null = null; // Ahora es un string
+  selectedBoleta: string | null = null; 
+  canShowSearchAsOverlay = false;
 
 
   constructor(private boletaService: BoletaService, private modalService: ModalService) { }
@@ -30,7 +33,6 @@ export class BoletasComponent implements OnInit {
     this.modalService.setDatosBoleta(boleta);
     this.modalService.showModal('modal');
   }
-
 
   cargarBoletas(): void {
     this.boletaService.listarBoletasPaginado(this.paginaActual, this.tamanioPagina, this.filtros)
@@ -74,7 +76,7 @@ export class BoletasComponent implements OnInit {
   aplicarFiltros(filtros: any): void {
     this.filtros = filtros;
     this.paginaActual = 1;
-    console.log("Filtros aplicados:", this.filtros); // DEBUG
+    console.log("Filtros aplicados:", this.filtros); 
     this.cargarBoletas();
   }
 }

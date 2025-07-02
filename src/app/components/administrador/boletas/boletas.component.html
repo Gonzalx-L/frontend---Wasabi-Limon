@@ -1,6 +1,10 @@
 <div class="boletas">
     <h1>Boletas</h1>
     <div class="contanier-boletas">
+        <div class="contanierbuscar">
+            <input type="search" class="search" name="" id="" placeholder="Buscar..">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        </div>
         <div class="contanier-filtros">
             <app-filtros class="app-filtros" (filtrosCambiados)="aplicarFiltros($event)"></app-filtros>
 

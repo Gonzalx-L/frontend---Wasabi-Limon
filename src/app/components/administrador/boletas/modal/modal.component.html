@@ -4,7 +4,7 @@
   aria-hidden="true">
 
   <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content  rounded-4 p-4 document-style" id="boleta-content">
+    <div class="modal-content  rounded-4 p-4 document-style">
       <div class="modal-header border-0 pb-0">
         <h1 class="modal-title fs-4">🧾 Boleta de Venta</h1>
         <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
@@ -55,8 +55,6 @@
           </div>
         </div>
 
-        <hr />
-
         <h5 class="mt-4">🧂 Detalle de Comidas</h5>
         <div class="table-responsive">
           <table class="table table-striped align-middle">
@@ -84,4 +82,47 @@
     </div>
   </div>
 
+</div>
+
+<!-- Contenedor invisible solo para PDF -->
+<div id="boleta-pdf" [hidden]="!modalService.isModalVisible('modal')" class="pdf-export">
+
+  <h2 class="text-center mb-3">Boleta de Venta</h2>
+  <div class="row">
+    <div class="col-4">
+      <p><strong>Código:</strong> {{ boleta?.cod_bol || '---' }}</p>
+      <p><strong>Fecha:</strong> {{ boleta?.fec_bol || '---' }}</p>
+      <p><strong>Hora:</strong> {{ boleta?.hora || '---' }}</p>
+      <p><strong>Total:</strong> S/ {{ boleta?.total_bol || '---' }}</p>
+    </div>
+    <div class="col-4">
+      <p><strong>DNI:</strong> {{ listaBoleta?.dni_cli || '---' }}</p>
+      <p><strong>Nombre:</strong> {{ listaBoleta?.nom_cli || '---' }}</p>
+      <p><strong>Número:</strong> {{ listaBoleta?.num_cli || '---' }}</p>
+      <p><strong>RUC:</strong> {{ listaBoleta?.ruc_cli || '---' }}</p>
+    </div>
+    <div class="col-4">
+      <p><strong>Mozo:</strong> {{ boleta?.nom_moz || '---' }}</p>
+      <p><strong>Propina:</strong> S/ {{ listaBoleta?.propina || '---' }}</p>
+      <p><strong>Comprobante:</strong> {{ listaBoleta?.nom_compro || '---' }}</p>
+      <p><strong>Pago:</strong> {{ listaBoleta?.nom_tipopago || '---' }}</p>
+    </div>
+  </div>
+  <h4 class="mt-4">Detalle de Comidas</h4>
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>Comida</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let deta of listarDetalleBoleta">
+        <td>{{ deta.nom_com || '---' }}</td>
+        <td>S/ {{ deta.prec_nom || '---' }}</td>
+        <td>{{ deta.cantidad || '---' }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
