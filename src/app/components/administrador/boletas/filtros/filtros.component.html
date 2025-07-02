@@ -1,0 +1,57 @@
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Filtros
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <form class="row g-3" [formGroup]="filtroForm" (ngSubmit)="filtrarBoletas()">
+                    <div class="col-md-3">
+                        <label for="total1" class="form-label">Total mínimo</label>
+                        <input type="number" class="form-control" id="total1" formControlName="total1">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="total2" class="form-label">Total máximo</label>
+                        <input type="number" class="form-control" id="total2" formControlName="total2">
+                    </div>
+
+                    <div class="col-md-3 ">
+                        <label for="horaInicio" class="form-label">Hora inicio</label>
+                        <input type="time" class="form-control" id="horaInicio" formControlName="horaInicio">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="horaFin" class="form-label">Hora fin</label>
+                        <input type="time" class="form-control" id="horaFin" formControlName="horaFin">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="fechaInicio" class="form-label">Fecha inicio</label>
+                        <input type="date" class="form-control" id="fechaInicio" formControlName="fechaInicio">
+                    </div>
+
+                    <div class="col-md-3 ">
+                        <label for="fechaFin" class="form-label">Fecha fin</label>
+                        <input type="date" class="form-control" id="fechaFin" formControlName="fechaFin">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="codMoz" class="form-label">Código de Mozo</label>
+                        <input type="text" class="form-control" id="codMoz" formControlName="codMoz">
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-filtrar col-sm-12">Filtrar</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>

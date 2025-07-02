@@ -1,0 +1,10 @@
+<app-sidebar (onToggleSideBar)="onToggleSideBar($event)"></app-sidebar>
+<app-header
+    [collapsed]="isSideNavCollapsed" 
+    [screenWidth]="screenWidth">
+</app-header>
+<app-body 
+    [collapsed]="isSideNavCollapsed" 
+    [screenWidth]="screenWidth">
+</app-body>
+<app-modal></app-modal>

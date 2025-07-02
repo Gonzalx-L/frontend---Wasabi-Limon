@@ -1,10 +1,19 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { CategoriaComponent } from './components/categoria/categoria.component';
-import { BarraizqComponent } from './components/administrador/barraizq/barraizq.component';
-import { DnnComponent } from './components/administrador/dnn/dnn.component';
+import { SidebarComponent } from './components/administrador/layout/sidebar/sidebar.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { PlatosComponent } from './components/platos/platos.component';
+import { InicioComponent } from './components/administrador/inicio/inicio.component';
+import { BoletasComponent } from './components/administrador/boletas/boletas.component';
+import { ComponentComponent } from './components/administrador/component/component.component';
+import { IngresosComponent } from './components/administrador/ingresos/ingresos.component';
+import { PropinasComponent } from './components/administrador/propinas/propinas.component';
+import { CrudMozoComponent } from './components/administrador/crud-mozo/crud-mozo.component';
+import { CrudComidaComponent } from './components/administrador/crud-comida/crud-comida.component';
+import { ComidaReporteComponent } from './components/administrador/estadistica/comida-reporte/comida-reporte.component';
+import { ComprobanteReporteComponent } from './components/administrador/estadistica/comprobante-reporte/comprobante-reporte.component';
+import { TipopagoReporteComponent } from './components/administrador/estadistica/tipopago-reporte/tipopago-reporte.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,7 +23,7 @@ export const routes: Routes = [
     children: [
       { path: 'categoria', component: CategoriaComponent },
       { path: 'categoria/:codCat/platos', component: PlatosComponent },
-      
+
     ],
   },
   // {
@@ -27,12 +36,22 @@ export const routes: Routes = [
   //   component: LayoutComponent,
   //   children: [{ path: '', component: PlatosComponent }],
   // },
+
+  //PARTE DE ANTONY
   {
     path: 'admi',
+    component: ComponentComponent,
     children: [
-      { path: 'barraizq', component: BarraizqComponent },
-      { path: 'dnn', component: DnnComponent },
-    ],
+      { path: 'inicio', component: InicioComponent },
+      { path: 'boletas', component: BoletasComponent },
+      { path: 'comidaReporte', component: ComidaReporteComponent },
+      { path: 'comprobanteReporte', component: ComprobanteReporteComponent },
+      { path: 'tipopagoReporte', component: TipopagoReporteComponent },
+      { path: 'ingresos', component: IngresosComponent },
+      { path: 'propinas', component: PropinasComponent },
+      { path: 'crudMozo', component: CrudMozoComponent },
+      { path: 'crudComida', component: CrudComidaComponent },
+      { path: '', redirectTo: 'inicio', pathMatch: 'full' }
+    ]
   },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];

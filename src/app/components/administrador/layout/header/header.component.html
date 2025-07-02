@@ -1,0 +1,99 @@
+<div class="head" [ngClass]="getHeadClass()">
+    <div class="head-content">
+        <div class="head-content-left">
+            <div class="search-contenier">
+                <div *ngIf="!canShowSearchAsOverlay" class="normal-search">
+                    <input type="search" class="search" name="" id="" placeholder="Buscar..">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                </div>
+                <div *ngIf="canShowSearchAsOverlay">
+                    <button [cdkMenuTriggerFor]="searchOverLay" class="search-menu-btn ripple">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="head-content-right">
+            <div class="head-menu">
+                <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple" 
+                        [cdkMenuTriggerFor]="languageOverlay"
+                    >
+                        <img [src]="'img/' + selectLanguage?.img + '.png'" class="flag" alt="flag">
+                    </button>
+                </div>
+                <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple" [cdkMenuTriggerFor]="notificationOverlay">
+                        <i class="fa-solid fa-bell menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="head-user-avatar-contanier">
+                <div class="head-user-avatar">
+                    <img src="img/WasabiLimón-Logo.png" [cdkMenuTriggerFor]="userOverlay" alt="user" class="user-avatar">
+                    <div class="circle-indicator pulse"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #searchOverLay>
+    <div class="overlay overlay-search overlay-fall" cdkMenu>
+        <input type="search" class="search" name="" id="" placeholder="Buscar..">
+        <button class="search-btn">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #languageOverlay>
+    <div class="overlay overlay-language overlay-fall" cdkMenu>
+        <ul>
+            <li *ngFor="let lang of languajes" cdkMenuItem>
+                <img [src]="'img/' + lang.img + '.png'" alt="flag">
+                <span>{{ lang.languaje }}</span>
+            </li>
+
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template #notificationOverlay> 
+    <div class="overlay overlay-notifications overlay-fall" cdkMenu>
+        <ul>
+            <li class="notification-head-contanier">
+                <div class="notification-head">Notificaciones</div>
+                <span class="view-all-link">
+                    <a>View All</a>
+                </span>
+            </li>
+            <li class="notification-message-contanier"
+                *ngFor="let noti of notifications" cdkMenuItem
+            >
+                <i [class]="noti.icon"></i>
+                <div>
+                    <div class="notification-subject">
+                        {{noti.subject}}
+                    </div>
+                    <p class="notification-desc">
+                        {{noti.descripcion}}
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template #userOverlay>
+    <div class="overlay overlay-userr overlay-fall" cdkMenu>
+        <ul>
+            <li *ngFor="let item of userItems cdkMenuItem">
+                <a>
+                    <i class="icon" [ngClass]="item.icon"></i>
+                    <span>{{item.label}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</ng-template>
