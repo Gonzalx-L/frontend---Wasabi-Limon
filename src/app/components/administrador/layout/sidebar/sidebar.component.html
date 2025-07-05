@@ -1,0 +1,49 @@
+<div class="sidebar" [ngClass]="collapsed ? 'sidebar-collapsed' : ''">
+    
+    <div class="logo-container">
+        <button class="logo" (click)="toggleCollapsed()">
+            <img id="logo" src="img/WasabiLimón-Logo.png" alt="Logo">
+        </button>
+        <div class="logo-text" [@fadeInOut] *ngIf="collapsed">WasabiLimón</div>
+        <button class="btn-close" [@rotate] (click)="closeSidebar()" *ngIf="collapsed">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="scrollwrap scrollwrap_delayed">
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item" *ngFor="let data of navData">
+                <a class="sidebar-nav-link" *ngIf="data.items && data.items.length >0" (click)="handleClick(data)">
+                    <i class="sidebar-link-icon" [class]="data.icon"></i>
+                    <span class="sidebar-link-text" [@fadeInOut] *ngIf="collapsed">{{ data.label }}</span>
+                    <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
+                        [ngClass]="!data.expanded ? 'fas fa-angle-right': 'fas fa-angle-down'"></i>
+                </a>
+    
+                <a class="sidebar-nav-link" *ngIf="!data.items || (data.items && data.items.length===0)"
+                    [routerLink]="[data.routerLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                    <i class="sidebar-link-icon" [class]="data.icon"></i>
+                    <span class="sidebar-link-text" [@fadeInOut] *ngIf="collapsed">{{ data.label }}</span>
+                </a>
+    
+                <div *ngIf="collapsed && data.items && data.items.length>0">
+                    <app-sublevel-menu [data]="data" [collapsed]="collapsed" [multiple]="multiple"
+                        [expanded]="data.expanded"></app-sublevel-menu>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
+  <div class="sidebar-footer">
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item" *ngFor="let data1 of navDataCuenta">
+        <a class="sidebar-nav-link sidebar-nav-link-close" [routerLink]="[data1.routerLink]" routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }">
+          <i class="sidebar-link-icon" [class]="data1.icon"></i>
+          <span class="sidebar-link-text" [@fadeInOut] *ngIf="collapsed">{{ data1.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
