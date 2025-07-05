@@ -14,19 +14,10 @@ export const routes: Routes = [
     children: [
       { path: 'categoria', component: CategoriaComponent },
       { path: 'categoria/:codCat/platos', component: PlatosComponent },
-      
+
     ],
   },
-  // {
-  //   path: 'categoria',
-  //   component: LayoutComponent,
-  //   children: [{ path: '', component: CategoriaComponent }],
-  // },
-  // {
-  //   path: 'categoria/:codCat/platos',
-  //   component: LayoutComponent,
-  //   children: [{ path: '', component: PlatosComponent }],
-  // },
+
   {
     path: 'admi',
     children: [
