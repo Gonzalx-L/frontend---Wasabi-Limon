@@ -1,0 +1,21 @@
+<div class="wasabi-container">
+  <h2 class="wasabi-title">Platos de {{ categoriaNombre }}</h2>
+
+  <div *ngIf="platos.length > 0; else sinPlatos">
+    <div class="wasabi-grid-platos">
+      <div class="wasabi-plato-card" *ngFor="let plato of platos">
+        <div class="wasabi-card">
+          <span class="wasabi-card-title">{{ plato.nombre }}</span>
+          <button class="wasabi-btn" (click)="agregarAlCarrito(plato)">
+            <i class="fa-solid fa-cart-plus"></i>
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #sinPlatos>
+    <p class="wasabi-empty">No hay platos en esta categoría.</p>
+  </ng-template>
+</div>
