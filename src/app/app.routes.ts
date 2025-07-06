@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { CategoriaComponent } from './components/categoria/categoria.component';
+import { LoginComponent } from './components/mozos/login/login.component';
+import { CategoriaComponent } from './components/mozos/categoria/categoria.component';
 import { SidebarComponent } from './components/administrador/layout/sidebar/sidebar.component';
 import { LayoutComponent } from './components/layout/layout.component';
-import { PlatosComponent } from './components/platos/platos.component';
+import { PlatosComponent } from './components/mozos/platos/platos.component';
 import { InicioComponent } from './components/administrador/inicio/inicio.component';
 import { BoletasComponent } from './components/administrador/boletas/boletas.component';
 import { ComponentComponent } from './components/administrador/component/component.component';
@@ -25,17 +25,6 @@ export const routes: Routes = [
       { path: 'categoria/:codCat/platos', component: PlatosComponent },
     ],
   },
-
-  // {
-  //   path: 'categoria',
-  //   component: LayoutComponent,
-  //   children: [{ path: '', component: CategoriaComponent }],
-  // },
-  // {
-  //   path: 'categoria/:codCat/platos',
-  //   component: LayoutComponent,
-  //   children: [{ path: '', component: PlatosComponent }],
-  // },
 
   //PARTE DE ANTONY
   {

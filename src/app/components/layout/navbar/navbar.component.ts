@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,18 +9,18 @@ import { CartService } from '../../../services/cart.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
-  @Output() toggleSidebar = new EventEmitter<void>();
+export class NavbarComponent {
+  @Input() cartCount = 0;
+  @Input() userAvatar = 'assets/WasabiLimón-Logo.png';
   @Output() openCart = new EventEmitter<void>();
-  cartCount = 0;
+  @Output() logout = new EventEmitter<void>();
 
-  constructor(private cartService: CartService) {}
+  showUserMenu = false;
 
-  ngOnInit(): void {
-    this.cartService.count$.subscribe((n) => (this.cartCount = n));
+  toggleUserMenu() {
+    this.showUserMenu = !this.showUserMenu;
   }
-
-  onCartClick(): void {
-    this.openCart.emit();
+  closeUserMenu() {
+    this.showUserMenu = false;
   }
 }

@@ -1,68 +1,61 @@
-<div class="d-flex">
-  <app-sidebar *ngIf="sidebarVisible" (closeSidebar)="hideSidebar()" class="bg-dark">
-  </app-sidebar>
-
-  <div class="flex-grow-1 w-100">
-    <app-navbar (toggleSidebar)="toggleSidebar()" (openCart)="onOpenCart()">
-    </app-navbar>
-
-    <div class="container-fluid p-4">
+<div class="wasabi-layout">
+  <app-sidebar
+    [expanded]="sidebarExpanded"
+    (toggle)="onToggleSidebar()"
+    (logout)="onLogout()"
+  ></app-sidebar>
+  <div class="layout-content" [style.marginLeft]="getContentMargin()">
+    <app-navbar
+      [cartCount]="cartCount"
+      (openCart)="onOpenCart()"
+      (logout)="onLogout()"
+    ></app-navbar>
+    <div class="body-wasabi">
       <router-outlet></router-outlet>
     </div>
-  </div>
-</div>
-
-<!-- Modal del carrito -->
-<div *ngIf="showCart">
-  <div class="modal-backdrop fade show"></div>
-  <div class="modal fade show d-block" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Carrito de Pedido</h5>
-          <button type="button" class="btn-close" (click)="onCloseCart()"></button>
-        </div>
-
-        <div class="modal-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Plato</th>
-                <th>Cant</th>
-                <th>Precio</th>
-                <th>Subtotal</th>
-                <th>Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of cartDetalle">
-                <td>{{ item.nombre }}</td>
-                <td>{{ item.cantidad }}</td>
-                <td>{{ item.precio | currency }}</td>
-                <td>{{ item.subtotal | currency }}</td>
-                <td>
-                  <button class="btn btn-sm btn-danger me-1" (click)="onRemove(item)">
-                    –
-                  </button>
-                  <button class="btn btn-sm btn-success" (click)="onAdd(item)">
-                    +
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="modal-footer">
-          <button class="btn btn-secondary" (click)="onCloseCart()">
-            Cerrar
-          </button>
-          <button class="btn btn-danger" (click)="onCancel()">Cancelar</button>
-          <button class="btn btn-primary" [disabled]="cartDetalle.length === 0" (click)="onConfirm()">
-            Confirmar
-          </button>
+    <!-- Modal carrito aquí -->
+    <ng-container *ngIf="showCart">
+      <div class="wasabi-modal-backdrop"></div>
+      <div class="wasabi-modal">
+        <div class="wasabi-modal-content">
+          <div class="wasabi-modal-header">
+            <h5>Carrito de Pedido</h5>
+            <button type="button" class="wasabi-btn-close" (click)="onCloseCart()">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="wasabi-modal-body">
+            <table class="wasabi-table">
+              <thead>
+                <tr>
+                  <th>Plato</th>
+                  <th>Cant</th>
+                  <th>Precio</th>
+                  <th>Subtotal</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of cartDetalle">
+                  <td>{{ item.nombre }}</td>
+                  <td>{{ item.cantidad }}</td>
+                  <td>{{ item.precio | currency }}</td>
+                  <td>{{ item.subtotal | currency }}</td>
+                  <td>
+                    <button class="wasabi-btn-secondary" (click)="onRemove(item)">–</button>
+                    <button class="wasabi-btn-primary" (click)="onAdd(item)">+</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="wasabi-modal-footer">
+            <button class="wasabi-btn-secondary" (click)="onCloseCart()">Cerrar</button>
+            <button class="wasabi-btn-danger" (click)="onCancel()">Cancelar</button>
+            <button class="wasabi-btn-primary" [disabled]="cartDetalle.length === 0" (click)="onConfirm()">Confirmar</button>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 </div>
