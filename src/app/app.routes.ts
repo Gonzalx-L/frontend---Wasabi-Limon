@@ -14,13 +14,14 @@ import { CrudComidaComponent } from './components/administrador/crud-comida/crud
 import { ComidaReporteComponent } from './components/administrador/estadistica/comida-reporte/comida-reporte.component';
 import { ComprobanteReporteComponent } from './components/administrador/estadistica/comprobante-reporte/comprobante-reporte.component';
 import { TipopagoReporteComponent } from './components/administrador/estadistica/tipopago-reporte/tipopago-reporte.component';
-
+import { MesasComponent } from './components/mozos/mesas/mesas.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: '',
     component: LayoutComponent,
     children: [
+      { path: 'mesas', component: MesasComponent },
       { path: 'categoria', component: CategoriaComponent },
       { path: 'categoria/:codCat/platos', component: PlatosComponent },
     ],

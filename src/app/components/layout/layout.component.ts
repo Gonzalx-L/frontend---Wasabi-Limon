@@ -57,7 +57,9 @@ export class LayoutComponent implements OnInit {
     this.cartService.cancelOrder().subscribe(() => this.onCloseCart());
   }
   onConfirm() {
-    this.cartService.confirmOrder().subscribe(() => this.onCloseCart());
+    // Obtén el codMozo del localStorage (por ahora '0001' por defecto)
+    const codMozo = localStorage.getItem('codMozo') || '0001';
+    this.cartService.confirmOrder(codMozo).subscribe(() => this.onCloseCart());
   }
 
   getContentMargin(): string {

@@ -1,0 +1,27 @@
+<div class="wasabi-container">
+  <h2 class="wasabi-title">Selecciona una mesa para comenzar</h2>
+  <div class="wasabi-grid-mesas">
+    <button
+      class="wasabi-mesa-card"
+      *ngFor="let numero of mesas | keyvalue"
+      [ngStyle]="{ 'background-color': colorMesa(numero.value.estado) }"
+      [disabled]="numero.value.estado !== 'LIBRE'"
+      (click)="seleccionarMesa(+numero.key)"
+    >
+      <span class="wasabi-mesa-label">Mesa {{ numero.key }}</span>
+      <span
+        class="wasabi-mesa-estado"
+        [ngClass]="{
+          libre: numero.value.estado === 'LIBRE',
+          atendida: numero.value.estado === 'ATENDIDA'
+        }"
+      >
+        {{
+          numero.value.estado === "LIBRE"
+            ? "Disponible"
+            : "Atendida por " + numero.value.codMozo
+        }}
+      </span>
+    </button>
+  </div>
+</div>
