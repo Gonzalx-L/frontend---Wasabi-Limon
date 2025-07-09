@@ -86,14 +86,14 @@
 </ng-template>
 
 <ng-template #userOverlay>
-    <div class="overlay overlay-userr overlay-fall" cdkMenu>
-        <ul>
-            <li *ngFor="let item of userItems cdkMenuItem">
-                <a>
-                    <i class="icon" [ngClass]="item.icon"></i>
-                    <span>{{item.label}}</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+  <div class="overlay overlay-userr overlay-fall" cdkMenu>
+    <ul>
+      <li *ngFor="let item of userItems; let i = index" cdkMenuItem>
+        <a (click)="onUserItemClick(item)">
+          <i class="icon" [ngClass]="item.icon"></i>
+          <span>{{item.label}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 </ng-template>

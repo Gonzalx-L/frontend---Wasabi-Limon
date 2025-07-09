@@ -15,15 +15,20 @@ import { ComidaReporteComponent } from './components/administrador/estadistica/c
 import { ComprobanteReporteComponent } from './components/administrador/estadistica/comprobante-reporte/comprobante-reporte.component';
 import { TipopagoReporteComponent } from './components/administrador/estadistica/tipopago-reporte/tipopago-reporte.component';
 import { MesasComponent } from './components/mozos/mesas/mesas.component';
+import { AuthGuard } from './guards/auth.guard';
+import { MozoGuard } from './guards/mozo.guard';
+import { AdminGuard } from './guards/admin.guard';
+
 export const routes: Routes = [
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'mesas', component: MesasComponent },
-      { path: 'categoria', component: CategoriaComponent },
-      { path: 'categoria/:codCat/platos', component: PlatosComponent },
+      { path: 'mesas', component: MesasComponent, canActivate: [MozoGuard] },
+      { path: 'categoria', component: CategoriaComponent, canActivate: [MozoGuard]  },
+      { path: 'categoria/:codCat/platos', component: PlatosComponent, canActivate: [MozoGuard]  },
     ],
   },
 
@@ -32,15 +37,15 @@ export const routes: Routes = [
     path: 'admi',
     component: ComponentComponent,
     children: [
-      { path: 'inicio', component: InicioComponent },
-      { path: 'boletas', component: BoletasComponent },
-      { path: 'comidaReporte', component: ComidaReporteComponent },
-      { path: 'comprobanteReporte', component: ComprobanteReporteComponent },
-      { path: 'tipopagoReporte', component: TipopagoReporteComponent },
-      { path: 'ingresos', component: IngresosComponent },
-      { path: 'propinas', component: PropinasComponent },
-      { path: 'crudMozo', component: CrudMozoComponent },
-      { path: 'crudComida', component: CrudComidaComponent },
+      { path: 'inicio', component: InicioComponent, canActivate: [AdminGuard]  },
+      { path: 'boletas', component: BoletasComponent, canActivate: [AdminGuard]  },
+      { path: 'comidaReporte', component: ComidaReporteComponent, canActivate: [AdminGuard]  },
+      { path: 'comprobanteReporte', component: ComprobanteReporteComponent, canActivate: [AdminGuard]  },
+      { path: 'tipopagoReporte', component: TipopagoReporteComponent, canActivate: [AdminGuard]  },
+      { path: 'ingresos', component: IngresosComponent, canActivate: [AdminGuard]  },
+      { path: 'propinas', component: PropinasComponent, canActivate: [AdminGuard]  },
+      { path: 'crudMozo', component: CrudMozoComponent, canActivate: [AdminGuard]  },
+      { path: 'crudComida', component: CrudComidaComponent, canActivate: [AdminGuard]  },
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
     ],
   },
