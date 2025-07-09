@@ -1,7 +1,7 @@
 <div class="modal fade custom-modal" tabindex="-1"
   [class.show]="modalService.isModalVisible('modal') && !isHiding && !isOpening" [class.opening]="isOpening"
   [class.hiding]="isHiding" [style.display]="modalService.isModalVisible('modal') ? 'block' : 'none'"
-  aria-hidden="true">
+  aria-hidden="false">
 
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content  rounded-4 p-4 document-style">
@@ -14,16 +14,16 @@
         <div class="row g-3">
           <div class="col-md-4">
             <strong>Código de Boleta:</strong>
-            <p>{{ boleta?.cod_bol || '---' }}</p>
+            <p>{{ boleta?.cod_bol || listaBoleta?.cod_bol || '---' }}</p>
 
             <strong>Fecha:</strong>
-            <p>{{ boleta?.fec_bol || '---' }}</p>
+            <p>{{ boleta?.fec_bol || listaBoleta?.fec_bol || '---'}}</p>
 
             <strong>Hora:</strong>
-            <p>{{ boleta?.hora || '---' }}</p>
+            <p>{{ boleta?.hora || listaBoleta?.hora || '---'}}</p>
 
             <strong>Total:</strong>
-            <p>S/ {{ boleta?.total_bol || '---' }}</p>
+            <p>S/ {{ boleta?.total_bol || listaBoleta?.total_bol || '---' }}</p>
 
           </div>
           <div class="col-md-4">
@@ -42,7 +42,7 @@
           <div class="col-md-4">
 
             <strong>Mozo:</strong>
-            <p>{{ boleta?.nom_moz || '---' }}</p>
+            <p>{{ boleta?.nom_moz  || listaBoleta?.nom_moz || '---' }}</p>            
 
             <strong>Propina:</strong>
             <p>S/ {{ listaBoleta?.propina || '---' }}</p>
@@ -85,7 +85,7 @@
 </div>
 
 <!-- Contenedor invisible solo para PDF -->
-<div id="boleta-pdf" [hidden]="!modalService.isModalVisible('modal')" class="pdf-export">
+<div id="boleta-pdf"  class="pdf-export oculto">
 
   <h2 class="text-center mb-3">Boleta de Venta</h2>
   <div class="row">

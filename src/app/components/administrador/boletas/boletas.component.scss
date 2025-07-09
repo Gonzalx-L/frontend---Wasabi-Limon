@@ -3,76 +3,103 @@ $color-blanco: #fff;
 $color-topedido: #394b54;
 $color-blanco-hover: #eff2f3;
 
-
 .boletas {
-    background-color: $color-background;
-    margin-top: -1.5rem;
+  background-color: $color-background;
+  margin-top: -1.5rem;
 
-    h1 {
-        font-size: 30px;
-        font-weight: bold;
-        margin-left: 4rem;
+  h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 2rem 0rem 1rem 4rem;
+  }
 
+  .firttop{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .contanierbuscar {
+    margin: 2rem 4rem 1rem 0rem;
+    display: flex;
+    align-items: center;
+
+    .search {
+      border: 2px solid $color-topedido;
+      height: 2.375rem;
+      padding-left: 1.5rem;
+      padding-right: 1.25rem;
+      width: 250px;
+      background-color: $color-blanco;
+      box-shadow: none;
+      border-radius: 1rem 0rem 0rem 1rem;
+      outline: 0;
     }
 
-    .contanier-tabla {
-        margin: 2rem 4rem;
-        border-radius: 1rem;
-        overflow-x: auto;
+    .search-icon {
+      background: $color-topedido;
+      border-radius: 0rem 1rem 1rem 0rem;
+      color: $color-blanco;
+      padding: 0.45rem 1.5rem 0.45rem 1.35rem;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  }
 
-        .table {
-            width: 100%;
-            min-width: 600px;
-            border-collapse: collapse;
+  .contanier-tabla {
+    margin: 2rem 4rem;
+    border-radius: 1rem;
+    overflow-x: auto;
 
-            thead {
-                .encabezado {
-                    background-color: $color-topedido;
-                    color: white;
-                    font-weight: bold;
-                    text-align: center;
-                    white-space: nowrap;
-                }
-            }
+    .table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
 
-            tbody {
-                tr {
-                    transition: background-color 0.3s ease;
-
-                    &:hover td {
-                        background-color: $color-blanco-hover;
-                    }
-
-                    td {
-                        padding: 1rem;
-                        text-align: center;
-                        vertical-align: middle;
-                        white-space: nowrap;
-
-                        .btn-revisar {
-                            background-color: $color-topedido;
-                            color: white;
-                            font-weight: 600;
-                            border: none;
-                            padding: 0.5rem 1.5rem;
-                            border-radius: 0.5rem;
-                            transition: background-color 0.3s ease;
-
-                            &:hover {
-                                background-color: darken($color-topedido, 10%);
-                                cursor: pointer;
-                            }
-                        }
-                    }
-                }
-            }
+      thead {
+        .encabezado {
+          background-color: $color-topedido;
+          color: white;
+          font-weight: bold;
+          text-align: center;
+          white-space: nowrap;
         }
+      }
+
+      tbody {
+        tr {
+          transition: background-color 0.3s ease;
+
+          &:hover td {
+            background-color: $color-blanco-hover;
+          }
+
+          td {
+            padding: 1rem;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+
+            .btn-revisar {
+              background-color: $color-topedido;
+              color: white;
+              font-weight: 600;
+              border: none;
+              padding: 0.5rem 1.5rem;
+              border-radius: 0.5rem;
+              transition: background-color 0.3s ease;
+
+              &:hover {
+                background-color: darken($color-topedido, 10%);
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
     }
-
-
-
+  }
 }
-
 
 .paginacion {
   margin-top: 1.5rem;
@@ -109,11 +136,16 @@ $color-blanco-hover: #eff2f3;
 
 // RESPONSIVE
 @media (max-width: 992px) {
-  .boletas h1 {
-    margin: 1rem 0;
-    text-align: center;
-    font-size: 22px;
+  .boletas .firttop {
+    h1{
+      font-size: 30px;
+      margin: 1.6rem 0 1rem 0 !important;
+    }  
+    .contanierbuscar{
+      margin: 1.6rem 0 1rem 0 !important;
+    }
   }
+  
 
   .contanier-tabla {
     margin: 0 0 1rem 0 !important;
@@ -121,7 +153,6 @@ $color-blanco-hover: #eff2f3;
 
     .table {
       min-width: 600px;
-      width: 100%;
     }
 
     td {
@@ -151,7 +182,24 @@ $color-blanco-hover: #eff2f3;
     }
   }
 }
-
+@media (max-width: 690px) {
+  .boletas .firttop {
+    display: block;
+    h1{
+      font-size: 30px;
+      text-align: center;
+      margin: 1.6rem 0 1rem 0 !important;
+    }  
+    .contanierbuscar{
+      margin: 1.6rem 0 1rem 0 !important;
+      .search{
+        max-width: 613.6px;
+        width: 100%;
+      }
+    }
+  }
+  
+}
 @media (max-width: 576px) {
   .contanier-tabla {
     margin: 0.5rem;

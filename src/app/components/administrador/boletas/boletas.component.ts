@@ -5,10 +5,11 @@ import { BoletaService } from '../../../services/boleta.service';
 import { ModalService } from '../../../services/modal.service';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-boletas',
-  imports: [FiltrosComponent, CommonModule, CdkMenuModule, OverlayModule],
+  imports: [FiltrosComponent, CommonModule, CdkMenuModule, OverlayModule, FormsModule],
   templateUrl: './boletas.component.html',
   styleUrls: ['./boletas.component.scss']
 })
@@ -19,9 +20,9 @@ export class BoletasComponent implements OnInit {
   tamanioPagina: number = 5;
   maxPaginasVisibles: number = 3;
   filtros: any = {}; // Almacena los filtros recibidos
-  selectedBoleta: string | null = null; 
+  selectedBoleta: string | null = null;
   canShowSearchAsOverlay = false;
-
+  codBol: string = '';
 
   constructor(private boletaService: BoletaService, private modalService: ModalService) { }
 
@@ -32,6 +33,24 @@ export class BoletasComponent implements OnInit {
   openModal(boleta: any): void {
     this.modalService.setDatosBoleta(boleta);
     this.modalService.showModal('modal');
+  }
+
+  openModalSearch(): void {
+    const txtCodBol = this.codBol;
+    if (!txtCodBol || txtCodBol.trim() === '') {
+      alert('Por favor, ingrese el código de la boleta');
+      return;
+    }
+    this.boletaService.obtenerDetalleBoleta(txtCodBol).subscribe({
+      next: data => {
+        this.modalService.setCodBol(txtCodBol);
+        this.modalService.showModal('modal');
+        
+      },
+      error: err => {
+        alert('El codigo de la boleta no existe')
+      }
+    });
   }
 
   cargarBoletas(): void {
@@ -76,7 +95,7 @@ export class BoletasComponent implements OnInit {
   aplicarFiltros(filtros: any): void {
     this.filtros = filtros;
     this.paginaActual = 1;
-    console.log("Filtros aplicados:", this.filtros); 
+    console.log("Filtros aplicados:", this.filtros);
     this.cargarBoletas();
   }
 }
