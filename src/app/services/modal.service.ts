@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +8,8 @@ export class ModalService {
 
   private modals: { [key: string]: boolean } = {};
   private boletaSubject = new BehaviorSubject<any>(null);
+  private codBolSubject = new BehaviorSubject<string | null>(null);
+
 
   constructor() { }
 
@@ -32,5 +34,13 @@ export class ModalService {
 
   getDatosBoleta() {
     return this.boletaSubject.asObservable();
+  }
+
+  setCodBol(codBol: string): void {
+    this.codBolSubject.next(codBol);
+  }
+
+  getCodBol() {
+    return this.codBolSubject.asObservable();
   }
 }
