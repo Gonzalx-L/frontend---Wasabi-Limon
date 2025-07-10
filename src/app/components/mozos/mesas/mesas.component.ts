@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class MesasComponent implements OnInit {
   mesas: { [numero: number]: MesaTemporal } = {};
-  mozo = '0001'; // Debería venir del login real
+  mozo = localStorage.getItem('codMozo') || '0000';
 
   constructor(private mesaService: MesaService, private router: Router) {}
 

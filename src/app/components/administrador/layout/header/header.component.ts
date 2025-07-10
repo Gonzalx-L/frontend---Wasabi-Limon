@@ -6,6 +6,9 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay'
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { languagesData, notifications, userItems } from './header-dummy-data';
+import { AuthService } from '../../../../services/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-header',
@@ -13,6 +16,8 @@ import { languagesData, notifications, userItems } from './header-dummy-data';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
+
+
 export class HeaderComponent implements OnInit {
 
   @Input() collapsed = false;
@@ -23,7 +28,7 @@ export class HeaderComponent implements OnInit {
   notifications = notifications;
   userItems = userItems;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private authService: AuthService, private router: Router) { }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -57,5 +62,11 @@ export class HeaderComponent implements OnInit {
       this.canShowSearchAsOverlay = false;
     }
   }
+ onUserItemClick(item: any) {
+  if (item.label === 'Salir') {
+    this.authService.logout(); // limpia localStorage y realiza POST si lo implementaste
+    this.router.navigate(['/login']);
+  }
+}
 
 }
