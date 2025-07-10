@@ -92,7 +92,7 @@ export class InicioComponent implements AfterViewInit {
     const month = hoy.getMonth() + 1;
     const day = hoy.getDate();
 
-    this.reportesService.obtenerComidaReporte(2025, 5, 22).subscribe((data) => {
+    this.reportesService.obtenerComidaReporte(2025, 7, 9).subscribe((data) => {
       // Extraer nombres y cantidades
       const labels = data.map((item: any) => item.nom_com);
       const valores = data.map((item: any) => item.cantidad_pedida);

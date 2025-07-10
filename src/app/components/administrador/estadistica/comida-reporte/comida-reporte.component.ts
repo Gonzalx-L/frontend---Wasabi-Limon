@@ -27,7 +27,6 @@ export class ComidaReporteComponent implements AfterViewInit {
   year: number = new Date().getFullYear();
   fechSelect: string = '';
   monthSelect: string = '';
-  filtros: any = {};
 
   @ViewChild('chartCanvasGraficoDay') canvasDay!: ElementRef<HTMLCanvasElement>;
   @ViewChild('chartCanvasGraficoMonth')
@@ -103,7 +102,7 @@ export class ComidaReporteComponent implements AfterViewInit {
 
   yearGraf() {
     console.log("📅 Año seleccionado:", this.year);
-    this.valYear(); 
+    this.valYear();
     this.graficoYear(this.year);
   }
 
@@ -304,9 +303,4 @@ export class ComidaReporteComponent implements AfterViewInit {
     }, 300);
   }
 
-  aplicarFiltros(filtros: any): void {
-    this.filtros = filtros;
-    console.log("Filtros aplicados:", this.filtros);
-    //this.cargarBoletas();
-  }
 }
