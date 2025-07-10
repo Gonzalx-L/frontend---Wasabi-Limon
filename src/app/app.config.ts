@@ -1,5 +1,7 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom} from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 import { provideHttpClient, withFetch  } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -16,6 +18,13 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()), 
-    provideAnimations()
+    provideAnimations(),
+    importProvidersFrom(HttpClientModule),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+    
   ],
 };
