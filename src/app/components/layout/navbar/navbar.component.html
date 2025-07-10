@@ -1,24 +1,48 @@
-<nav class="navbar navbar-dark bg-dark px-3">
-  <button
-    class="btn btn-outline-light d-lg-none me-2"
-    (click)="toggleSidebar.emit()"
-  >
-    ☰
-  </button>
-  <span class="navbar-brand mb-0 h1">Panel de Control</span>
+<div class="head head-md-screen">
+  <div class="head-content">
+    <div class="head-content-left">
+      <div class="logo">
+        <img src="img/WasabiLimón-Logo.png" alt="logo" />
+      </div>
+      <span class="head-title ms-3">Panel de Control</span>
+    </div>
+    <div class="head-content-right">
 
-  <div class="ms-auto d-flex align-items-center">
-    <button class="btn position-relative me-3" (click)="onCartClick()">
-      <i class="bi bi-cart3"></i>
-      <span
-        *ngIf="cartCount > 0"
-        class="badge bg-danger position-absolute top-0 start-100 translate-middle"
+      <button class="cart-btn-bubble ripple" (click)="openCart.emit()">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-badge-bubble" *ngIf="cartCount > 0"
+          >+{{ cartCount }}</span
+        >
+      </button>
+
+      <!-- Idioma (puedes hacerlo dinámico si quieres) -->
+      <button class="head-menu-item-btn ripple" tabindex="-1">
+        <img src="assets/mexico.png" class="flag" alt="flag" />
+      </button>
+      <!-- Notificaciones -->
+      <button class="head-menu-item-btn ripple" tabindex="-1">
+        <i class="fa-solid fa-bell menu-icon"></i>
+      </button>
+      <!-- Usuario -->
+      <div
+        class="head-user-avatar-contanier ms-3"
+        (mouseleave)="closeUserMenu()"
       >
-        {{ cartCount }}
-      </span>
-    </button>
-    <a class="btn btn-outline-light btn-sm" routerLink="/login"
-      >Cerrar Sesión</a
-    >
+        <div
+          class="head-user-avatar"
+          tabindex="0"
+          (click)="toggleUserMenu()"
+          (blur)="closeUserMenu()"
+        >
+          <img [src]="userAvatar" alt="user" class="user-avatar" />
+          <div class="circle-indicator pulse"></div>
+        </div>
+        <div class="user-dropdown" *ngIf="showUserMenu">
+          <a (click)="logout.emit()">
+            <i class="fa-solid fa-right-from-bracket"></i> Salir
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
-</nav>
+</div>

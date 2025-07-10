@@ -13,61 +13,56 @@ import { CartService, ResumenPedidoDTO } from '../../services/cart.service';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
-  isDesktop = false;
-  sidebarVisible = false;
-
+  sidebarExpanded = true;
   showCart = false;
   cartDetalle: ResumenPedidoDTO[] = [];
+  cartCount = 0;
 
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    if (typeof window !== 'undefined') {
-      this.isDesktop = window.innerWidth >= 992;
-      this.sidebarVisible = this.isDesktop;
-    }
+    this.sidebarExpanded = window.innerWidth >= 992;
+    this.cartService.count$.subscribe((n) => (this.cartCount = n));
   }
 
   @HostListener('window:resize')
   onResize() {
-    if (typeof window !== 'undefined') {
-      this.isDesktop = window.innerWidth >= 992;
-      this.sidebarVisible = this.isDesktop;
-    }
+    this.sidebarExpanded = window.innerWidth >= 992;
   }
 
-  toggleSidebar() {
-    if (!this.isDesktop) this.sidebarVisible = !this.sidebarVisible;
+  onToggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
+  }
+  onLogout() {
+    window.location.href = '/login';
   }
 
-  hideSidebar() {
-    if (!this.isDesktop) this.sidebarVisible = false;
-  }
-
-  onOpenCart(): void {
+  // Modal Carrito
+  onOpenCart() {
     this.showCart = true;
     this.cartService
       .getResumen()
       .subscribe((list) => (this.cartDetalle = list));
   }
-
-  onCloseCart(): void {
+  onCloseCart() {
     this.showCart = false;
   }
-
-  onAdd(item: ResumenPedidoDTO): void {
+  onAdd(item: ResumenPedidoDTO) {
     this.cartService.add(item.codCom).subscribe(() => this.onOpenCart());
   }
-
-  onRemove(item: ResumenPedidoDTO): void {
+  onRemove(item: ResumenPedidoDTO) {
     this.cartService.remove(item.codCom).subscribe(() => this.onOpenCart());
   }
-
-  onCancel(): void {
+  onCancel() {
     this.cartService.cancelOrder().subscribe(() => this.onCloseCart());
   }
+  onConfirm() {
+    // Obtén el codMozo del localStorage (por ahora '0001' por defecto)
+    const codMozo = localStorage.getItem('codMozo') || '0001';
+    this.cartService.confirmOrder(codMozo).subscribe(() => this.onCloseCart());
+  }
 
-  onConfirm(): void {
-    this.cartService.confirmOrder().subscribe(() => this.onCloseCart());
+  getContentMargin(): string {
+    return this.sidebarExpanded ? '16rem' : '5rem';
   }
 }

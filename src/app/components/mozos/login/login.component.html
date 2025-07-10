@@ -1,0 +1,43 @@
+<div class="login-page">
+  <!-- VIDEO DE FONDO -->
+  <video
+    class="login-bg-video"
+    autoplay
+    muted
+    playsinline
+    (ended)="onVideoEnded()"
+  >
+    <source src="/video/fondo-rustico.mp4" type="video/mp4" />
+    Tu navegador no soporta video.
+  </video>
+
+  <!-- Overlay oscuro/desenfocado solo cuando aparece el login -->
+  <div class="bg-overlay" *ngIf="showLogin"></div>
+
+  <!-- LOGIN CARD aparece al terminar el video -->
+  <div class="login-card" *ngIf="showLogin" [@fadeInSlow]>
+    <form class="login-form" (submit)="onSubmit()">
+      <h2 class="login-title">Iniciar sesión</h2>
+      <div class="form-group">
+        <label>
+          <i class="fa-solid fa-user"></i>
+          <input type="text" placeholder="Usuario" required />
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" placeholder="Contraseña" required />
+        </label>
+      </div>
+      <div class="form-options">
+        <label class="rememberme"> <input type="checkbox" /> Recordarme </label>
+        <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
+      </div>
+      <button class="login-btn" type="submit">Entrar</button>
+    </form>
+    <div class="login-illustration">
+      <img src="/img/login.png" alt="ilustración" />
+    </div>
+  </div>
+</div>

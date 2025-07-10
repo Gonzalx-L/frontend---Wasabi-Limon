@@ -1,0 +1,13 @@
+<div class="wasabi-container">
+  <h2 class="wasabi-title">
+    Bienvenido, ¿listo para hacer el pedido?
+  </h2>
+
+  <div class="wasabi-grid-categorias">
+    <div class="wasabi-categoria-card" *ngFor="let categoria of categorias">
+      <a class="wasabi-card" [routerLink]="['/categoria', categoria.cod_cat, 'platos']">
+        <span>{{ categoria.nombre }}</span>
+      </a>
+    </div>
+  </div>
+</div>

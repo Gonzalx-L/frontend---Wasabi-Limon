@@ -1,23 +1,27 @@
-<nav class="bg-dark text-white vh-100 p-3" style="width: 220px;">
-  <!-- Botón cerrar en móviles -->
-  <button class="btn btn-outline-light d-lg-none mb-3" (click)="closeSidebar.emit()">
-    ✕
-  </button>
-
-  <h5 class="mb-4">Restaurante</h5>
-
-  <ul class="nav flex-column">
-    <li class="nav-item mb-2">
-      <a routerLink="/categoria" class="nav-link text-white">Categorías</a>
-    </li>
-    <li class="nav-item mb-2">
-      <a routerLink="/empleados" class="nav-link text-white">Empleados</a>
-    </li>
-    <li class="nav-item mb-2">
-      <a routerLink="/mesas" class="nav-link text-white">Mesas</a>
-    </li>
-    <li class="nav-item mb-2">
-      <a routerLink="/ventas" class="nav-link text-white">Ventas</a>
+<nav [class.expanded]="expanded" class="wasabi-sidebar">
+  <div class="sidebar-header">
+    <button class="sidebar-logo" (click)="toggle.emit()">
+      <img src="img/WasabiLimón-Logo.png" alt="Logo" />
+    </button>
+    <span *ngIf="expanded" class="sidebar-title">Restaurante</span>
+  </div>
+  <ul class="sidebar-list">
+    <li *ngFor="let item of items" [class.disabled]="item.disabled">
+      <a
+        [routerLink]="item.route"
+        class="sidebar-link"
+        [class.only-icon]="!expanded"
+        [class.disabled]="item.disabled"
+      >
+        <i [class]="item.icon"></i>
+        <span *ngIf="expanded">{{ item.label }}</span>
+      </a>
     </li>
   </ul>
+  <div class="sidebar-footer">
+    <a class="sidebar-link sidebar-logout" (click)="logout.emit()">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      <span *ngIf="expanded">Salir</span>
+    </a>
+  </div>
 </nav>
