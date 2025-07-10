@@ -44,54 +44,54 @@ export class ModalComponent implements OnInit {
     this.escucharCambiosDeBoletaDesdeBusqueda();
   }
 
-escucharCambiosDeBoletaDesdeTabla(): void {
-  this.modalService.getDatosBoleta().subscribe(boleta => {
-    if (boleta) {
-      this.boleta = boleta;
-      this.codbol = boleta.cod_bol;
-      this.codOr = boleta.cod_or;
+  escucharCambiosDeBoletaDesdeTabla(): void {
+    this.modalService.getDatosBoleta().subscribe(boleta => {
+      if (boleta) {
+        this.boleta = boleta;
+        this.codbol = boleta.cod_bol;
+        this.codOr = boleta.cod_or;
 
-      this.boletaService.obtenerDetalleBoleta(this.codbol).subscribe(data => {
-        this.listaBoleta = data[0];
-      });
-
-      this.boletaService.obtenerDetalleComidas(this.codOr).subscribe(data => {
-        this.listarDetalleBoleta = data;
-        console.log("Detalle comidas (tabla):", this.listarDetalleBoleta);
-      });
-    } else {
-      this.listaBoleta = null;
-      this.listarDetalleBoleta = [];
-    }
-  });
-}
-
-escucharCambiosDeBoletaDesdeBusqueda(): void {
-  this.modalService.getCodBol().subscribe(codBolBuscar => {
-    if (codBolBuscar) {
-      this.codBolBuscar = codBolBuscar;
-
-      this.boletaService.obtenerDetalleBoleta(this.codBolBuscar).subscribe(data => {
-        if (data && data[0]) {
+        this.boletaService.obtenerDetalleBoleta(this.codbol).subscribe(data => {
           this.listaBoleta = data[0];
-          this.codOrBuscar = this.listaBoleta.cod_or;
+        });
 
-          this.boletaService.obtenerDetalleComidas(this.codOrBuscar).subscribe(comidas => {
-            this.listarDetalleBoleta = comidas;
-            this.boleta = {
-              cod_bol: this.listaBoleta.cod_bol,
-              fec_bol: this.listaBoleta.fec_bol,
-              hora: this.listaBoleta.hora,
-              total_bol: this.listaBoleta.total_bol,
-              nom_moz: this.listaBoleta.nom_moz
-            };
-            console.log("Detalle comidas (btnBuscar):", comidas);
-          });
-        }
-      });
-    }
-  });
-}
+        this.boletaService.obtenerDetalleComidas(this.codOr).subscribe(data => {
+          this.listarDetalleBoleta = data;
+          console.log("Detalle comidas (tabla):", this.listarDetalleBoleta);
+        });
+      } else {
+        this.listaBoleta = null;
+        this.listarDetalleBoleta = [];
+      }
+    });
+  }
+
+  escucharCambiosDeBoletaDesdeBusqueda(): void {
+    this.modalService.getCodBol().subscribe(codBolBuscar => {
+      if (codBolBuscar) {
+        this.codBolBuscar = codBolBuscar;
+
+        this.boletaService.obtenerDetalleBoleta(this.codBolBuscar).subscribe(data => {
+          if (data && data[0]) {
+            this.listaBoleta = data[0];
+            this.codOrBuscar = this.listaBoleta.cod_or;
+
+            this.boletaService.obtenerDetalleComidas(this.codOrBuscar).subscribe(comidas => {
+              this.listarDetalleBoleta = comidas;
+              this.boleta = {
+                cod_bol: this.listaBoleta.cod_bol,
+                fec_bol: this.listaBoleta.fec_bol,
+                hora: this.listaBoleta.hora,
+                total_bol: this.listaBoleta.total_bol,
+                nom_moz: this.listaBoleta.nom_moz
+              };
+              console.log("Detalle comidas (btnBuscar):", comidas);
+            });
+          }
+        });
+      }
+    });
+  }
 
 
   closeModal(): void {
@@ -103,34 +103,34 @@ escucharCambiosDeBoletaDesdeBusqueda(): void {
   }
 
   imprimir(): void {
-  const element = document.getElementById('boleta-pdf');
-  if (!element) {
-    console.error('Elemento #boleta-pdf no encontrado.');
-    return;
+    const element = document.getElementById('boleta-pdf');
+    if (!element) {
+      console.error('Elemento #boleta-pdf no encontrado.');
+      return;
+    }
+
+    // ✅ Mostrar el PDF temporalmente
+    element.classList.remove('oculto');
+
+    setTimeout(() => {
+      const opt = {
+        margin: 0,
+        filename: `boleta_${this.boleta?.cod_bol || 'reporte'}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          scrollY: 0,
+          scrollX: 0
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().from(element).set(opt).save().then(() => {
+        // ⛔️ Vuelve a ocultarlo después de imprimir
+        element.classList.add('oculto');
+      });
+    }, 300);
   }
-
-  // ✅ Mostrar el PDF temporalmente
-  element.classList.remove('oculto');
-
-  setTimeout(() => {
-    const opt = {
-      margin: 0,
-      filename: `boleta_${this.boleta?.cod_bol || 'reporte'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        scrollY: 0,
-        scrollX: 0
-      },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().from(element).set(opt).save().then(() => {
-      // ⛔️ Vuelve a ocultarlo después de imprimir
-      element.classList.add('oculto');
-    });
-  }, 300);
-}
 
 }

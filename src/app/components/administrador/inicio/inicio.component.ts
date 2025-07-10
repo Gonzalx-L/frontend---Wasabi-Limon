@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  ViewChild,
-  Inject,
-  PLATFORM_ID,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Inject, PLATFORM_ID,}from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Chart, ChartType } from 'chart.js/auto';
 import { reportesService } from '../../../services/reportes.service';
@@ -24,8 +17,7 @@ export class InicioComponent implements AfterViewInit {
   public totalIngresosHoy: number = 0.0;
 
   @ViewChild('chartCanvasPlatos') canvasPlatos!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('chartCanvasPropinas')
-  canvasPropina!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('chartCanvasPropinas') canvasPropina!: ElementRef<HTMLCanvasElement>;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -104,9 +96,7 @@ export class InicioComponent implements AfterViewInit {
       // Extraer nombres y cantidades
       const labels = data.map((item: any) => item.nom_com);
       const valores = data.map((item: any) => item.cantidad_pedida);
-
       const { backgroundColors, borderColors } = this.generateColors(valores.length);
-
       // Crear gráfico
       this.chartPlatos = new Chart(canvas, {
         type: 'bar' as ChartType,
@@ -128,8 +118,7 @@ export class InicioComponent implements AfterViewInit {
           maintainAspectRatio: false,
         }
       });
-
-      console.log('✅ Gráfico de platos actualizado con datos reales');
+      console.log('✅ Gráfico de platos actualizado');
     });
   }
 
