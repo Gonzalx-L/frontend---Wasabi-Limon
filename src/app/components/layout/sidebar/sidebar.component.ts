@@ -25,17 +25,18 @@ export class SidebarComponent {
     constructor(private authService: AuthService, private router: Router) {}
 
   items: SidebarItem[] = [
-    { icon: 'fa-solid fa-list', label: 'Categorías', route: '/categoria' },
-    {
-      icon: 'fa-solid fa-users',
-      label: 'Empleados',
-      route: '/empleados',
-      disabled: true,
-    },
     {
       icon: 'fa-solid fa-chair',
       label: 'Mesas',
       route: '/mesas',
+    },
+    { icon: 'fa-solid fa-list', 
+      label: 'Categorías', 
+      route: '/categoria' },
+    {
+      icon: 'fa-solid fa-file-invoice',
+      label: 'Órdenes',
+      route: '/ordenes',
       disabled: true,
     },
     {
