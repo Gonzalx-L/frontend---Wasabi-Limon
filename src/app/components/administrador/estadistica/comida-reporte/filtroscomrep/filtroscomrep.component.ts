@@ -12,8 +12,9 @@ import { Chart, ChartType } from 'chart.js/auto';
 import { reportesService } from '../../../../../services/reportes.service';
 import { SidebarService } from '../../../../../services/sidebar.service';
 import { comidaService } from '../../../../../services/comida.service';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime, map, switchMap } from 'rxjs/operators';
 import { ChangeDetectorRef } from '@angular/core';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-filtroscomrep',
@@ -27,9 +28,8 @@ export class FiltroscomrepComponent implements OnInit {
   comidasFiltradas1: any[] = [];
   comidasFiltradas2: any[] = [];
   comidasFiltradas3: any[] = [];
-  private bloquearBusqueda1 = false;
-  private bloquearBusqueda2 = false;
-  private bloquearBusqueda3 = false;
+  public graficoListo = false;
+
 
   @Output() filtrosCambiados = new EventEmitter<any>(); filtroForm: FormGroup;
   @ViewChild('chartCanvasGraficoComparativo') canvasComparativo!: ElementRef<HTMLCanvasElement>;
@@ -102,6 +102,12 @@ export class FiltroscomrepComponent implements OnInit {
     ).subscribe(data => {
       this.comidasFiltradas3 = data;
     });
+
+    this.sidebarService.toggleEvent$.subscribe(() => {
+      setTimeout(() => {
+        this.redibujarGraficos();
+      }, 100);
+    });
   }
 
   seleccionarComida(comida: any, campoNombre: string, campoCodigo: string) {
@@ -125,9 +131,7 @@ export class FiltroscomrepComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-
-  generarGrafico() {
-    const comida1 = this.filtroForm.get('comida1')?.value;
+  generarGrafico(mostrarAlertas: boolean = true) {
     const codComida1 = this.filtroForm.get('codComida1')?.value;
     const nomComida1 = this.filtroForm.get('nomComida1')?.value;
     const codComida2 = this.filtroForm.get('codComida2')?.value;
@@ -136,17 +140,150 @@ export class FiltroscomrepComponent implements OnInit {
     const nomComida3 = this.filtroForm.get('nomComida3')?.value;
     const year = this.filtroForm.get('year')?.value;
 
-    if (comida1 == "") {
-      alert('Por favor, eligar una comida');
+    if (!codComida1 && !codComida2 && !codComida3) {
+      if (mostrarAlertas) {
+        alert('Debes seleccionar al menos una comida');
+      }
       return;
     }
-    if (year == "") {
-      alert('Por favor, el año no puede estar   vacio');
-      return;
-    }
-    console.log("Comida 1 => Código:", codComida1, "| Nombre:", nomComida1);
-    console.log("Comida 2 => Código:", codComida2, "| Nombre:", nomComida2);
-    console.log("Comida 3 => Código:", codComida3, "| Nombre:", nomComida3);
 
+    if (!year) {
+      if (mostrarAlertas) {
+        alert('Por favor, el año no puede estar vacío');
+      }
+      return;
+    }
+
+    const datasets: any[] = [];
+    const colores = ['#FF6384', '#36A2EB', '#4BC0C0']; // Puedes cambiar los colores
+    const labelsMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    const promesas = [];
+
+    if (codComida1) {
+      promesas.push(
+        this.reportesService.obtenerComidaPorMeses(codComida1, year).pipe(
+          map(data => ({
+            nombre: nomComida1,
+            datos: data
+          }))
+        )
+      );
+    }
+
+    if (codComida2) {
+      promesas.push(
+        this.reportesService.obtenerComidaPorMeses(codComida2, year).pipe(
+          map(data => ({
+            nombre: nomComida2,
+            datos: data
+          }))
+        )
+      );
+    }
+
+    if (codComida3) {
+      promesas.push(
+        this.reportesService.obtenerComidaPorMeses(codComida3, year).pipe(
+          map(data => ({
+            nombre: nomComida3,
+            datos: data
+          }))
+        )
+      );
+    }
+
+    forkJoin(promesas).subscribe((resultados: any[]) => {
+      resultados.forEach((res, index) => {
+        const cantidadesPorMes = Array(12).fill(0);
+        res.datos.forEach((item: any) => {
+          const mesIndex = item.mes - 1;
+          cantidadesPorMes[mesIndex] = item.cantidad_pedida;
+        });
+
+        datasets.push({
+          label: res.nombre,
+          data: cantidadesPorMes,
+          borderColor: colores[index],
+          fill: false,
+          tension: 0.3
+        });
+      });
+
+      if (this.chartComparativo) {
+        this.chartComparativo.destroy();
+      }
+
+      const ctx = this.canvasComparativo.nativeElement.getContext('2d');
+      if (ctx) {
+        this.chartComparativo = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labelsMeses,
+            datasets: datasets
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                  font: {
+                    size: 12 // Tamaño de texto de la leyenda
+                  }
+                }
+              },
+              title: {
+                display: true,
+                text: 'Comparativo de comidas por mes',
+                font: {
+                  size: 16
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  callback: function (value, index, ticks) {
+                    // Recorta a 4 caracteres el mes
+                    const label = this.getLabelForValue(value as number);
+                    return label.substring(0, 4);
+                  },
+                  maxRotation: 90,
+                  minRotation: 90,
+                  font: {
+                    size: window.innerWidth < 480 ? 10 : 12
+                  }
+                }
+              },
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  font: {
+                    size: window.innerWidth < 480 ? 10 : 12
+                  }
+                }
+              }
+            }
+          }
+
+        });
+      }
+      this.graficoListo = true;
+    });
   }
+
+  redibujarGraficos() {
+    if (this.chartComparativo) {
+      this.chartComparativo.destroy();
+    }
+
+    setTimeout(() => {
+      this.generarGrafico(false);
+    }, 300);
+  }
+
 }

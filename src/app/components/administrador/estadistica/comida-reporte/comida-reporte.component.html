@@ -4,6 +4,19 @@
         <app-filtroscomrep class="app-filtros"></app-filtroscomrep>
     </div>
     <div class="container-fluid">
+        <div class="radio-options">
+            <label>
+                <input type="radio" name="opcion" value="mas-vendidas" [(ngModel)]="opcionSeleccionada"
+                    (change)="refrescarGraficos()">
+                Más vendidas
+            </label>
+            <label>
+                <input type="radio" name="opcion" value="menos-vendidas" [(ngModel)]="opcionSeleccionada"
+                    (change)="refrescarGraficos()">
+                Menos vendidas
+            </label>
+        </div>
+
         <div class="row g-4">
             <div class="graficos col-12 col-md-6 col-xl-4">
                 <div class="contanier-graficos">
@@ -19,7 +32,7 @@
                 <div class="contanier-graficos">
                     <h2>Grafico Por Mes</h2>
                     <div class="inputinfo">
-                        <input type="month" [(ngModel)]="monthSelect" >
+                        <input type="month" [(ngModel)]="monthSelect">
                         <i class="fa-solid fa-arrow-right-to-bracket" (click)="monthGraf()"></i>
                     </div>
                     <canvas #chartCanvasGraficoMonth class="month-grafico"></canvas>
@@ -29,7 +42,8 @@
                 <div class="contanier-graficos">
                     <h2>Grafico Por Año</h2>
                     <div class="inputinfo">
-                        <input type="number" [(ngModel)]="year" (blur)="valYear()"min="2000" max="2099" placeholder="Año">
+                        <input type="number" [(ngModel)]="year" (blur)="valYear()" min="2000" max="2099"
+                            placeholder="Año">
                         <i class="fa-solid fa-arrow-right-to-bracket" (click)="yearGraf()"></i>
                     </div>
                     <canvas #chartCanvasGraficoYear class="year-grafico"></canvas>

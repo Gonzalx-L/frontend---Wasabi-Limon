@@ -52,17 +52,18 @@
                     </div>
 
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-filtrar col-sm-12">Aplicar</button>
-                    </div>
-
-                    <div class="col-md-3">
                         <label for="fechaInicio" class="form-label">Año</label>
                         <input type="number" class="form-control" id="year" formControlName="year">
                     </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-filtrar col-sm-12">Aplicar</button>
+                    </div>
                 </form>
-                <div class="contanier-graficos">
+                <div class="container-graficos" [ngClass]="{ 'activo': graficoListo }">
                     <canvas #chartCanvasGraficoComparativo class="comparativo-grafico"></canvas>
                 </div>
+
             </div>
         </div>
 

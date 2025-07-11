@@ -27,6 +27,8 @@ export class ComidaReporteComponent implements AfterViewInit {
   year: number = new Date().getFullYear();
   fechSelect: string = '';
   monthSelect: string = '';
+  opcionSeleccionada: 'mas-vendidas' | 'menos-vendidas' = 'mas-vendidas';
+
 
   @ViewChild('chartCanvasGraficoDay') canvasDay!: ElementRef<HTMLCanvasElement>;
   @ViewChild('chartCanvasGraficoMonth')
@@ -115,58 +117,60 @@ export class ComidaReporteComponent implements AfterViewInit {
       this.chartDay.destroy();
     }
 
-    this.reportesService
-      .obtenerComidaReporte(year, month, day)
-      .subscribe((data) => {
-        const labels = data.map((item: any) => item.nom_com);
-        const valores = data.map((item: any) => item.cantidad_pedida);
+    const obs = this.opcionSeleccionada === 'mas-vendidas'
+      ? this.reportesService.obtenerComidaReporte(year, month, day)
+      : this.reportesService.obtenerComidaReporteMenor(year, month, day);
 
-        this.chartDay = new Chart(canvas, {
-          type: 'line',
-          data: {
-            labels,
-            datasets: [
-              {
-                label: 'Cantidad Comida',
-                data: valores,
-                fill: false,
-                tension: 0.1,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                ticks: {
-                  autoSkip: false,
-                  maxRotation: 0,
-                  minRotation: 0,
-                  padding: 5,
-                  callback: function (value: any) {
-                    const label = this.getLabelForValue(value);
-                    return label.split(' ');
-                  },
-                  font: {
-                    size: 9,
-                  },
+    obs.subscribe((data) => {
+      const labels = data.map((item: any) => item.nom_com);
+      const valores = data.map((item: any) => item.cantidad_pedida);
+
+      this.chartDay = new Chart(canvas, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Cantidad Comida',
+              data: valores,
+              fill: false,
+              tension: 0.1,
+              borderColor: 'rgba(54, 162, 235, 1)',
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              ticks: {
+                autoSkip: false,
+                maxRotation: 0,
+                minRotation: 0,
+                padding: 5,
+                callback: function (value: any) {
+                  const label = this.getLabelForValue(value);
+                  return label.split(' ');
+                },
+                font: {
+                  size: 9,
                 },
               },
-              y: {
-                ticks: {
-                  font: {
-                    size: 10,
-                  },
+            },
+            y: {
+              ticks: {
+                font: {
+                  size: 10,
                 },
               },
             },
           },
-        });
+        },
       });
+    });
   }
 
   graficoMonth(year: number, month: number) {
@@ -177,7 +181,11 @@ export class ComidaReporteComponent implements AfterViewInit {
       this.chartMonth.destroy();
     }
 
-    this.reportesService.obtenerComidaReporte(year, month).subscribe((data) => {
+    const obs = this.opcionSeleccionada === 'mas-vendidas'
+      ? this.reportesService.obtenerComidaReporte(year, month)
+      : this.reportesService.obtenerComidaReporteMenor(year, month);
+
+    obs.subscribe((data) => {
       const labels = data.map((item: any) => item.nom_com);
       const valores = data.map((item: any) => item.cantidad_pedida);
 
@@ -235,7 +243,11 @@ export class ComidaReporteComponent implements AfterViewInit {
       this.chartYear.destroy();
     }
 
-    this.reportesService.obtenerComidaReporte(year).subscribe((data) => {
+    const obs = this.opcionSeleccionada === 'mas-vendidas'
+      ? this.reportesService.obtenerComidaReporte(year)
+      : this.reportesService.obtenerComidaReporteMenor(year);
+
+    obs.subscribe((data) => {
       const labels = data.map((item: any) => item.nom_com);
       const valores = data.map((item: any) => item.cantidad_pedida);
 
@@ -283,6 +295,10 @@ export class ComidaReporteComponent implements AfterViewInit {
         },
       });
     });
+  }
+
+  refrescarGraficos() {
+    this.redibujarGraficos(); // ya tienes este método implementado
   }
 
   redibujarGraficos() {
