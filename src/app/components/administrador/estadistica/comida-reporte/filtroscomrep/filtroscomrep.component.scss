@@ -83,6 +83,19 @@ $color-azul: #699dfa;
   }
 }
 
+.list-group {
+  position: absolute;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+
+
 @media (max-width: 768px) {
   .accordion .accordion-body {
 

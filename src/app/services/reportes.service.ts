@@ -38,6 +38,10 @@ export class reportesService {
         return this.http.get(`${this.apiUrlReportes}/comidafiltro`, { params });
     }
 
+    obtenerComidaPorMeses(codCOm: string, year: number): Observable<any> {
+        return this.http.get<any>(`${this.apiUrlReportes}/comidamesesfiltro/${codCOm}/${year}`);
+    }
+
     ObtenerIngresosReporteFiltro(year?: number, month?: number, day?: number): Observable<any> {
         const params: any = {};
         if (year !== undefined) params.year = year;

@@ -3,29 +3,56 @@
         <h2 class="accordion-header">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                 aria-expanded="true" aria-controls="collapseOne">
-                Filtros
+                Grafico Comparativo
             </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                <form class="row g-3" [formGroup]="filtroForm" (ngSubmit)="filtrarBoletas()">
-                    <div class="col-md-3">
-                        <label for="total1" class="form-label">Comida 1</label>
-                        <input type="text" class="form-control" id="comida1" formControlName="comida1">
+                <form class="row g-3" [formGroup]="filtroForm" (ngSubmit)="generarGrafico()">
+
+                    <div class="col-md-3 position-relative">
+                        <label for="comida1" class="form-label">Comida 1</label>
+                        <input #comida1Input type="text" class="form-control" id="comida1" formControlName="comida1"
+                            autocomplete="off">
+                        <ul class="list-group position-absolute w-100 z-3" *ngIf="comidasFiltradas1.length">
+                            <li class="list-group-item list-group-item-action" *ngFor="let comida of comidasFiltradas1"
+                                (click)="seleccionarComida(comida, 'comida1', 'codComida1')">
+                                {{ comida.nomCom }}
+                            </li>
+                        </ul>
+                        <input type="hidden" formControlName="codComida1">
                     </div>
 
-                    <div class="col-md-3 ">
-                        <label for="horaInicio" class="form-label">Comida 2</label>
-                        <input type="text" class="form-control" id="comida2" formControlName="comida2">
+                    <div class="col-md-3 position-relative">
+                        <label for="comida2" class="form-label">Comida 2</label>
+                        <input #comida2Input type="text" class="form-control" id="comida2" formControlName="comida2"
+                            autocomplete="off">
+
+                        <ul class="list-group position-absolute w-100 z-3" *ngIf="comidasFiltradas2.length">
+                            <li class="list-group-item list-group-item-action" *ngFor="let comida of comidasFiltradas2"
+                                (click)="seleccionarComida(comida, 'comida2', 'codComida2')">
+                                {{ comida.nomCom }}
+                            </li>
+                        </ul>
+                        <input type="hidden" formControlName="codComida2">
+                    </div>
+
+                    <div class="col-md-3 position-relative">
+                        <label for="comida3" class="form-label">Comida 3</label>
+                        <input #comida3Input type="text" class="form-control" id="comida3" formControlName="comida3"
+                            autocomplete="off">
+
+                        <ul class="list-group position-absolute w-100 z-3" *ngIf="comidasFiltradas3.length">
+                            <li class="list-group-item list-group-item-action" *ngFor="let comida of comidasFiltradas3"
+                                (click)="seleccionarComida(comida, 'comida3', 'codComida3')">
+                                {{ comida.nomCom }}
+                            </li>
+                        </ul>
+                        <input type="hidden" formControlName="codComida3">
                     </div>
 
                     <div class="col-md-3">
-                        <label for="horaFin" class="form-label">Comida 3</label>
-                        <input type="text" class="form-control" id="comida3" formControlName="comida3">
-                    </div>
-
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-filtrar col-sm-12">Filtrar</button>
+                        <button type="submit" class="btn btn-filtrar col-sm-12">Aplicar</button>
                     </div>
 
                     <div class="col-md-3">
@@ -34,7 +61,6 @@
                     </div>
                 </form>
                 <div class="contanier-graficos">
-                    <h2>Grafico Comparativo</h2>
                     <canvas #chartCanvasGraficoComparativo class="comparativo-grafico"></canvas>
                 </div>
             </div>
