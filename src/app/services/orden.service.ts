@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BoletaForm } from './boleta.service';
 
 export interface DetalleDTO {
   codCom: string;
@@ -41,6 +42,10 @@ listarPorMozoYEstado(codMoz: string, estado: string): Observable<OrdenResumenDTO
 }
   editarOrden(id: string, orden: ResumenPedidoDTO[]): Observable<void> {
     return this.http.put<void>(`${this.backendUrl}/mozo/${id}/editar`, orden);
+  }
+
+  generarBoleta(data: BoletaForm): Observable<void> {
+    return this.http.post<void>(`${this.backendUrl}/generar`, data);
   }
 
   marcarComoPagado(id: string): Observable<void> {
