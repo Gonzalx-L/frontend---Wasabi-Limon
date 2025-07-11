@@ -35,7 +35,20 @@ export class reportesService {
         if (month !== undefined) params.month = month;
         if (day !== undefined) params.day = day;
 
-        return this.http.get(`${this.apiUrlReportes}/comidafiltro`, { params });
+        return this.http.get(`${this.apiUrlReportes}/comidafiltromayor`, { params });
+    }
+
+    obtenerComidaReporteMenor(year?: number, month?: number, day?: number): Observable<any> {
+        const params: any = {};
+        if (year !== undefined) params.year = year;
+        if (month !== undefined) params.month = month;
+        if (day !== undefined) params.day = day;
+
+        return this.http.get(`${this.apiUrlReportes}/comidafiltromenor`, { params });
+    }
+
+    obtenerComidaPorMeses(codCOm: string, year: number): Observable<any> {
+        return this.http.get<any>(`${this.apiUrlReportes}/comidamesesfiltro/${codCOm}/${year}`);
     }
 
     ObtenerIngresosReporteFiltro(year?: number, month?: number, day?: number): Observable<any> {
