@@ -1,4 +1,7 @@
-.ingresos-reporte {
+$color-azul: #699dfa;
+$color-topedido: #394b54;
+
+.propinas-reporte {
   h1 {
     font-size: 30px;
     font-weight: bold;
@@ -30,14 +33,14 @@
         margin-left: 0.5rem;
         transition: border-color 0.2s;
         &:focus {
-          border-color: #394b54;
+          border-color: $color-topedido;
         }
       }
     }
     button {
       display: flex;
       align-items: center;
-      background: #699dfa;
+      background: $color-azul;
       color: #fff;
       border: none;
       padding: 0.55rem 1.3rem;
@@ -49,7 +52,7 @@
       }
       transition: background 0.18s;
       &:hover {
-        background: darken(#699dfa, 8%);
+        background: darken($color-azul, 8%);
       }
     }
   }
@@ -86,7 +89,7 @@
           border: 1px solid #ccc;
           transition: border-color 0.2s;
           &:focus {
-            border-color: #394b54;
+            border-color: $color-topedido;
           }
         }
       }
