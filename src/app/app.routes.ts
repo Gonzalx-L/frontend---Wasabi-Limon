@@ -15,6 +15,8 @@ import { ComidaReporteComponent } from './components/administrador/estadistica/c
 import { ComprobanteReporteComponent } from './components/administrador/estadistica/comprobante-reporte/comprobante-reporte.component';
 import { TipopagoReporteComponent } from './components/administrador/estadistica/tipopago-reporte/tipopago-reporte.component';
 import { MesasComponent } from './components/mozos/mesas/mesas.component';
+import { OrdenesComponent } from './components/mozos/ordenes/ordenes.component';
+import { VentasComponent } from './components/mozos/ventas/ventas.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MozoGuard } from './guards/mozo.guard';
 import { AdminGuard } from './guards/admin.guard';
@@ -39,6 +41,10 @@ export const routes: Routes = [
         component: PlatosComponent,
         canActivate: [MozoGuard],
       },
+      { path: 'categoria', component: CategoriaComponent, canActivate: [MozoGuard]  },
+      { path: 'categoria/:codCat/platos', component: PlatosComponent, canActivate: [MozoGuard]  },
+      { path: 'ordenes', component: OrdenesComponent, canActivate: [MozoGuard] },
+      { path: 'ventas', component: VentasComponent, canActivate: [MozoGuard] },
     ],
   },
 
@@ -88,6 +94,15 @@ export const routes: Routes = [
         component: CrudComidaComponent,
         canActivate: [AdminGuard],
       },
+      { path: 'inicio', component: InicioComponent, canActivate: [AdminGuard]  },
+      { path: 'boletas', component: BoletasComponent, canActivate: [AuthGuard]  },
+      { path: 'comidaReporte', component: ComidaReporteComponent, canActivate: [AdminGuard]  },
+      { path: 'comprobanteReporte', component: ComprobanteReporteComponent, canActivate: [AdminGuard]  },
+      { path: 'tipopagoReporte', component: TipopagoReporteComponent, canActivate: [AdminGuard]  },
+      { path: 'ingresos', component: IngresosComponent, canActivate: [AdminGuard]  },
+      { path: 'propinas', component: PropinaComponent, canActivate: [AdminGuard]  },
+      { path: 'crudMozo', component: CrudMozoComponent, canActivate: [AdminGuard]  },
+      { path: 'crudComida', component: CrudComidaComponent, canActivate: [AdminGuard]  },
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
     ],
   },

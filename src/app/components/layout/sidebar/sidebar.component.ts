@@ -37,20 +37,15 @@ export class SidebarComponent {
       icon: 'fa-solid fa-file-invoice',
       label: 'Órdenes',
       route: '/ordenes',
-      disabled: true,
     },
     {
       icon: 'fa-solid fa-file-invoice',
       label: 'Ventas',
       route: '/ventas',
-      disabled: true,
-    },
+    }
   ];
 
   logout() {
     this.authService.logout();
-    localStorage.removeItem('rol');
-    localStorage.removeItem('codMozo');
-    this.router.navigate(['/login']);
   }
 }

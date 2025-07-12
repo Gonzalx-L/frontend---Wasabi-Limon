@@ -2,6 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface BoletaForm {
+  codOr: string;
+  dniCli?: string;
+  rucCli?: string;
+  nomCli?: string;
+  numCli?: string;
+  correoCli?: string;
+  propina?: number;
+  tipoPago: number;
+  comprobante: number;
+}
+
+
 @Injectable({
     providedIn: 'root',
 })
