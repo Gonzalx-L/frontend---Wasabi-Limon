@@ -14,24 +14,23 @@ import { Router } from '@angular/router';
 export class TokenInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
     let clonedReq = req;
 
     if (token) {
-      const cloned = req.clone({
+      clonedReq = req.clone({
         headers: req.headers.set('Authorization', 'Bearer ' + token)
       });
-      return next.handle(cloned);
     }
 
     return next.handle(clonedReq).pipe(
       catchError((error) => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
+          alert('⚠️ Tu sesión ha caducado. Por favor inicia sesión nuevamente.');
           localStorage.removeItem('token');
+          localStorage.removeItem('rol');
+          localStorage.removeItem('codMozo');
           this.router.navigate(['/login']);
         }
         return throwError(() => error);
@@ -39,3 +38,4 @@ export class TokenInterceptor implements HttpInterceptor {
     );
   }
 }
+

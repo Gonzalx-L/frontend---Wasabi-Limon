@@ -1,0 +1,62 @@
+$color-background: #f4f7fa;
+$color-blanco: #fff;
+$color-topedido: #394b54;
+$color-blanco-hover: #eff2f3;
+
+.tabla-ventas {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  background-color: $color-blanco;
+  border-radius: 1rem;
+  overflow: hidden;
+  font-size: 15px;
+
+  thead {
+    th {
+      background-color: $color-topedido; // <- aquí
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      padding: 1rem;
+      white-space: nowrap;
+    }
+  
+  }
+
+  tbody {
+    tr {
+      transition: background-color 0.3s ease;
+
+      &:hover td {
+        background-color: $color-blanco-hover;
+      }
+
+      td {
+        padding: 0.8rem;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  tfoot {
+    td {
+      background-color: #eef3f6;
+      font-weight: bold;
+      padding: 0.8rem;
+      text-align: right;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .tabla-ventas {
+    font-size: 14px;
+
+    th, td {
+      padding: 0.6rem;
+    }
+  }
+}

@@ -3,6 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 export interface LoginRequest {
   correo: string;
@@ -29,7 +30,7 @@ export interface Administrador {
 export class AuthService {
   private backendUrl = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   loginMozo(data: LoginRequest): Observable<any> {
     return this.http.post<any>(`${this.backendUrl}/login-mozo`, data).pipe(
@@ -48,27 +49,40 @@ export class AuthService {
   }
 
   getToken(): string | null {
-  return localStorage.getItem('token');
-}
-
-
-logout(): void {
-  const token = localStorage.getItem('token');
-  if (token) {
-    this.http.post(
-      `${this.backendUrl}/logout`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        responseType: 'text' // texto plano
-      }
-    ).subscribe(() => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('rol');
-      localStorage.removeItem('codMozo');
-    });
+    return localStorage.getItem('token');
   }
+
+  tieneMesasAtendidas(codMozo: string): Observable<boolean> {
+  return this.http.get<boolean>(`http://localhost:8080/api/mesas/mozo/${codMozo}/tiene-atendidas`);
+}
+
+logout() {
+  const codMozo = localStorage.getItem('codMozo');
+
+  if (!codMozo) {
+    this.realizarLogout(); // Si no hay mozo (es admin), cerrar sesión normalmente
+    return;
+  }
+
+  this.tieneMesasAtendidas(codMozo).subscribe({
+    next: (tieneMesas) => {
+      if (tieneMesas) {
+        alert('No puedes cerrar sesión porque tienes mesas en estado ATENDIDA');
+      } else {
+        this.realizarLogout();
+      }
+    },
+    error: () => {
+      alert('Error al verificar mesas atendidas');
+    }
+  });
+}
+
+private realizarLogout() {
+  localStorage.removeItem('rol');
+  localStorage.removeItem('codMozo');
+  localStorage.removeItem('token');
+  this.router.navigate(['/login']);
 }
 
 }
-
