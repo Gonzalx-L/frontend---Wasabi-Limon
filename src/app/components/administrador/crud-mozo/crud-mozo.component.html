@@ -1,1 +1,76 @@
-<p>crud-mozo works!</p>
+<div class="contanier">
+    <div class="topmozo">
+        <h1>Crud de Mozo</h1>
+        <div class="contenieraccions">
+            <div class="contanierbuscar">
+                <input #inputBusqueda type="text" class="search" placeholder="Buscar..." />
+                <i class="fa-solid fa-magnifying-glass search-icon" (click)="buscar(inputBusqueda.value)"></i>
+            </div>
+            <button type="button" class="btn btn-success btnAnadir" (click)="openModalNew()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <label>Añadir</label>
+            </button>
+        </div>
+    </div>
+    <div class="botommozo">
+        <div class="contanier-tabla">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="encabezado">Img</th>
+                        <th class="encabezado">Codigo</th>
+                        <th class="encabezado">Nombre</th>
+                        <th class="encabezado">Correo</th>
+                        <th class="encabezado">Editar</th>
+                        <th class="encabezado">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr *ngFor="let mozo of listarMozo">
+                        <td>
+                            <img *ngIf="mozo.img1Moz_base64" [src]="mozo.img1Moz_base64" alt="Imagen del mozo"
+                                width="100" height="100">
+                        </td>
+                        <td>{{ mozo.cod_moz }}</td>
+                        <td>{{ mozo.nom_moz }}</td>
+                        <td>{{ mozo.correo_moz }}</td>
+                        <td>
+                            <button type="button" class="btn btn-warning" (click)="openModalEdit(mozo)">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <label>Editar</label>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" (click)="eliminarMozo(mozo)">
+                                <i class="fa-solid fa-trash"></i>
+                                <label>Eliminar</label>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="paginacion mt-4">
+            <nav aria-label="Page navigation example" *ngIf="totalPaginas > 1">
+                <ul class="pagination justify-content-center">
+
+
+                    <li class="page-item" [class.disabled]="paginaActual === 1">
+                        <a class="page-link" (click)="cambiarPagina(paginaActual - 1)">Anterior</a>
+                    </li>
+
+
+                    <li class="page-item" *ngFor="let pagina of generarArrayPaginas()"
+                        [class.active]="paginaActual === pagina">
+                        <a class="page-link" (click)="cambiarPagina(pagina)">{{ pagina }}</a>
+                    </li>
+
+
+                    <li class="page-item" [class.disabled]="paginaActual === totalPaginas">
+                        <a class="page-link" (click)="cambiarPagina(paginaActual + 1)">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

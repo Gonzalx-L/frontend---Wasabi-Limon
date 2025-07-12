@@ -1,0 +1,45 @@
+<div class="modal fade custom-modal" tabindex="-1"
+    [class.show]="modalService.isModalVisible('edit') && !isHiding && !isOpening" [class.opening]="isOpening"
+    [class.hiding]="isHiding" [style.display]="modalService.isModalVisible('edit') ? 'block' : 'none'"
+    aria-hidden="false">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Mozo</h1>
+                <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-add" (ngSubmit)="edit()" #mozoForm="ngForm">
+                    <div class="at">
+                        <mat-form-field>
+                            <mat-label>Nombres</mat-label>
+                            <input matInput [(ngModel)]="name" name="name" placeholder="Nombre" type="text" autocomplete="false" required>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Correo</mat-label>
+                            <input matInput [(ngModel)]="email" name="email" placeholder="Correo" type="email" autocomplete="false" required>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Contraseña</mat-label>
+                            <input matInput [(ngModel)]="password" name="password" type="password" autocomplete="false" required>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="input-group mb-3 custom-input-group">
+                        <label for="inputGroupFile01">Imagen</label>
+                        <input type="file" (change)="onFileSelected($event)" class="form-control" id="inputGroupFile01">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                        <button type="submit" class="btn btn-warning btn-primary">Editar Mozo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
