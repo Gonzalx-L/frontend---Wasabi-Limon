@@ -43,7 +43,7 @@ export class EditMozoComponent implements OnInit {
       this.cod_moz = mozo.cod_moz;
       this.name = mozo.nom_moz;
       this.email = mozo.correo_moz;
-      this.password = ""; // o puedes inicializarla con mozo.contra_moz si lo prefieres
+      this.password = ""; 
     }
   });
 }
@@ -73,7 +73,7 @@ export class EditMozoComponent implements OnInit {
 
     this.mozoService.editarMozo(this.cod_moz, editMozo).subscribe(
       response => {
-        alert("✅ Mozo editado correctamente");
+        alert(" Mozo editado correctamente");
         this.mozoService.emitirRefresh();
         this.closeModal();
       },

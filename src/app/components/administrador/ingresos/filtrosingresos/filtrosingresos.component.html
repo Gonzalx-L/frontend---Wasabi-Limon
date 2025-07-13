@@ -1,0 +1,29 @@
+<form class="filtros-form" (ngSubmit)="emitirFiltro()">
+  <label>
+    Año:
+    <input
+      type="number"
+      [(ngModel)]="filtro.year"
+      name="year"
+      min="2000"
+      max="2100"
+    />
+  </label>
+  <label>
+    Mes:
+    <input
+      type="number"
+      [(ngModel)]="filtro.month"
+      name="month"
+      min="1"
+      max="12"
+    />
+  </label>
+  <label>
+    Día:
+    <input type="number" [(ngModel)]="filtro.day" name="day" min="1" max="31" />
+  </label>
+  <button type="submit">
+    <i class="fa-solid fa-magnifying-glass"></i> Buscar
+  </button>
+</form>

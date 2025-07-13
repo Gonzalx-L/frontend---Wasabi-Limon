@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class mozoService {
     private apiUrlMozo = 'http://localhost:8080/api/mozo';
+    private apiUrl = 'http://localhost:8080/api/mozo/listar';
     private mozoRefresh = new Subject<void>();
     private mozoSubject = new BehaviorSubject<any>(null);
 
@@ -61,6 +62,10 @@ export class mozoService {
 
     getDatosMozo() {
         return this.mozoSubject.asObservable();
+    }
+
+    getMozos(): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl);
     }
 
 

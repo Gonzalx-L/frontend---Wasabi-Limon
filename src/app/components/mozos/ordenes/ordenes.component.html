@@ -1,0 +1,93 @@
+<!-- Ventana flotante de carga -->
+<div *ngIf="mostrarCargando" class="overlay">
+  <div class="spinner-box">
+    <div class="loader"></div>
+    <p class="text-white mt-2">Cargando órdenes...</p>
+  </div>
+</div>
+<div class="container py-4">
+<!-- Contenido normal -->
+<div [class.blur]="mostrarCargando">
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="!cargando && ordenes.length === 0" class="alert alert-warning text-center">
+    No hay órdenes para mostrar.
+  </div>
+
+  <div *ngFor="let orden of ordenes" class="orden-card mb-4 p-3">
+    <h4 class="orden-header">
+      Orden: {{ orden.codOr }} | Mesa: {{ orden.mesa }} | Hora: {{ orden.hora }}
+    </h4>
+
+    <table class="tabla-ordenes">
+      <thead class="table-dark">
+        <tr>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detalle of orden.detalles">
+          <td>{{ detalle.codCom }}</td>
+          <td>{{ detalle.nombre }}</td>
+          <td>{{ detalle.precio | currency:'USD' }}</td>
+          <td>
+            <input
+              type="number"
+              min="1"
+              [value]="detalle.cantidad"
+              (change)="cambiarCantidad($event, orden, detalle)"
+              class="form-control cantidad-input"
+            />
+          </td>
+          <td>{{ detalle.subtotal | currency:'USD' }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td  colspan="4" class="text-end"><strong>Total:</strong></td>
+          <td><strong>{{ orden.total | currency:'USD' }}</strong></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="d-flex gap-2 mt-2">
+      <button class="btn btn-success" (click)="guardarCambios(orden)">💾 Guardar</button>
+      <button class="btn btn-primary" (click)="pagarOrden(orden)">💰 Marcar como pagada</button>
+      <button class="btn btn-danger" (click)="anularOrden(orden.codOr)">❌ Anular</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MODAL: Formulario de boleta -->
+<div *ngIf="mostrarFormularioBoleta" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Generar Boleta</h3>
+    <form (ngSubmit)="confirmarPago()">
+      <input type="text" [(ngModel)]="boletaForm.nomCli" name="nomCli" placeholder="Nombre del cliente" required />
+      <input type="text" [(ngModel)]="boletaForm.dniCli" name="dniCli" placeholder="DNI (opcional)" />
+      <input type="text" [(ngModel)]="boletaForm.rucCli" name="rucCli" placeholder="RUC (opcional)" />
+      <input type="text" [(ngModel)]="boletaForm.numCli" name="numCli" placeholder="Celular" />
+      <input type="email" [(ngModel)]="boletaForm.correoCli" name="correoCli" placeholder="Correo" />
+      <input type="number" [(ngModel)]="boletaForm.propina" name="propina" placeholder="Propina" min="0" />
+
+      <select [(ngModel)]="boletaForm.tipoPago" name="tipoPago" class="form-control" required>
+        <option *ngFor="let tipo of tiposPago" [value]="tipo.codTipopago">
+          {{ tipo.nomTipopago }}
+        </option>
+      </select>
+      <select [(ngModel)]="boletaForm.comprobante" name="comprobante" class="form-control" required>
+        <option *ngFor="let comprobante of comprobantes" [value]="comprobante.codCompro">
+          {{ comprobante.nomCompro }}
+        </option>
+      </select>
+      <div class="modal-buttons">
+        <button type="submit">Confirmar Pago</button>
+        <button type="button" (click)="cerrarFormularioBoleta()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
