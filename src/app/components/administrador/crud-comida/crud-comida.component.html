@@ -1,1 +1,75 @@
-<p>crud-comida works!</p>
+<div class="contanier">
+    <div class="topmozo">
+        <h1>Crud de Comida</h1>
+        <div class="contenieraccions">
+            <div class="contanierbuscar">
+                <input #inputBusqueda type="text" class="search" placeholder="Buscar..." />
+                <i class="fa-solid fa-magnifying-glass search-icon" (click)="buscar(inputBusqueda.value)"></i>
+            </div>
+            <button type="button" class="btn btn-success btnAnadir" (click)="openModalNew()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <label>Añadir</label>
+            </button>
+        </div>
+    </div>
+    <div class="botommozo">
+        <div class="contanier-tabla">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="encabezado">Codigo</th>
+                        <th class="encabezado">Nombre</th>
+                        <th class="encabezado">Precio</th>
+                        <th class="encabezado">Descripción</th>
+                        <th class="encabezado">Categoria</th>
+                        <th class="encabezado">Editar</th>
+                        <th class="encabezado">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr *ngFor="let comida of listarComida">
+                        <td>{{ comida.codCom }}</td>
+                        <td>{{ comida.nomCom }}</td>
+                        <td>{{ comida.precNom }}</td>
+                        <td class="columna-descripcion">{{ comida.descCom }}</td>
+                        <td>{{ comida.nomCat }}</td>
+                        <td>
+                            <button type="button" class="btn btn-warning" (click)="openModalEdit(comida)">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <label>Editar</label>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" (click)="eliminarMozo(comida)">
+                                <i class="fa-solid fa-trash"></i>
+                                <label>Eliminar</label>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="paginacion mt-4">
+            <nav aria-label="Page navigation example" *ngIf="totalPaginas > 1">
+                <ul class="pagination justify-content-center">
+
+
+                    <li class="page-item" [class.disabled]="paginaActual === 1">
+                        <a class="page-link" (click)="cambiarPagina(paginaActual - 1)">Anterior</a>
+                    </li>
+
+
+                    <li class="page-item" *ngFor="let pagina of generarArrayPaginas()"
+                        [class.active]="paginaActual === pagina">
+                        <a class="page-link" (click)="cambiarPagina(pagina)">{{ pagina }}</a>
+                    </li>
+
+
+                    <li class="page-item" [class.disabled]="paginaActual === totalPaginas">
+                        <a class="page-link" (click)="cambiarPagina(paginaActual + 1)">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

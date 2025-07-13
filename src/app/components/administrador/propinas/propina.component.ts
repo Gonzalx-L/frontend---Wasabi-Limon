@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PropinasService } from '../../../services/propinas.service';
-import { MozoService } from '../../../services/mozo.service';
+import { mozoService } from '../../../services/mozo.service';
 import { FiltrospropinasComponent } from '../propinas/filtrospropinas/filtrospropinas/filtrospropinas.component';
 import Chart from 'chart.js/auto';
 
@@ -28,7 +28,7 @@ export class PropinaComponent implements OnInit {
 
   constructor(
     private propinasService: PropinasService,
-    private mozoService: MozoService
+    public mozoService: mozoService
   ) {}
 
   ngOnInit() {

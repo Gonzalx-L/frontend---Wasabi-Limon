@@ -1,0 +1,47 @@
+<div class="modal fade custom-modal" tabindex="-1"
+    [class.show]="modalService.isModalVisible('newCom') && !isHiding && !isOpening" [class.opening]="isOpening"
+    [class.hiding]="isHiding" [style.display]="modalService.isModalVisible('newCom') ? 'block' : 'none'"
+    aria-hidden="false">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar Comida</h1>
+                <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-add" (ngSubmit)="agregar()" #comForm="ngForm">
+                    <div class="at">
+                        <mat-form-field>
+                            <mat-label>Nombre</mat-label>
+                            <input matInput [(ngModel)]="name" name="name" placeholder="Nombre" type="text"
+                                autocomplete="false" required>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Precio</mat-label>
+                            <input matInput [(ngModel)]="price" name="price" placeholder="Precio" type="number"
+                                step="0.01" min="0" required>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Descripción</mat-label>
+                            <input matInput [(ngModel)]="dec" name="dec" type="text" placeholder="Descripción" autocomplete="false" required>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Categoria</mat-label>
+                            <input matInput [(ngModel)]="codcate" name="codcate" type="text" required>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                        <button type="submit" class="btn btn-success btn-primary">Agregar Comida</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

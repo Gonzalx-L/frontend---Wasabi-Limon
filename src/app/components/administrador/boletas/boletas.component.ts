@@ -31,6 +31,7 @@ export class BoletasComponent implements OnInit {
   }
 
   openModal(boleta: any): void {
+    console.log("Boleta enviada a modal"+boleta)
     this.modalService.setDatosBoleta(boleta);
     this.modalService.showModal('modal');
   }

@@ -26,13 +26,6 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(clonedReq).pipe(
       catchError((error) => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          alert('⚠️ Tu sesión ha caducado. Por favor inicia sesión nuevamente.');
-          localStorage.removeItem('token');
-          localStorage.removeItem('rol');
-          localStorage.removeItem('codMozo');
-          this.router.navigate(['/login']);
-        }
         return throwError(() => error);
       })
     );

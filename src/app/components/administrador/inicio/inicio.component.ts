@@ -43,7 +43,7 @@ export class InicioComponent implements AfterViewInit {
     const hoy = new Date();
     const fecha = hoy.toISOString().split('T')[0]; // formato: yyyy-MM-dd
     this.reportesService
-      .contarBoletasPorFecha('2025-05-22').subscribe((cantidad) => {
+      .contarBoletasPorFecha(fecha).subscribe((cantidad) => {
         this.totalBoletasHoy = cantidad;
         console.log('Total de boletas:', cantidad);
       });
@@ -56,7 +56,7 @@ export class InicioComponent implements AfterViewInit {
     const day = hoy.getDate();
 
     this.reportesService
-      .ObtenerIngresosReporteFiltro(2025, 5, 22).subscribe((respuesta) => {
+      .ObtenerIngresosReporteFiltro(year, month, day).subscribe((respuesta) => {
         if (respuesta && respuesta.length > 0) {
           this.totalIngresosHoy = respuesta[0].ingreso;
           console.log('✅ Ingresos de hoy:', this.totalIngresosHoy);
@@ -92,7 +92,7 @@ export class InicioComponent implements AfterViewInit {
     const month = hoy.getMonth() + 1;
     const day = hoy.getDate();
 
-    this.reportesService.obtenerComidaReporte(2025, 7, 9).subscribe((data) => {
+    this.reportesService.obtenerComidaReporte(year, month, day).subscribe((data) => {
       // Extraer nombres y cantidades
       const labels = data.map((item: any) => item.nom_com);
       const valores = data.map((item: any) => item.cantidad_pedida);
@@ -131,7 +131,7 @@ export class InicioComponent implements AfterViewInit {
     const day = hoy.getDate();
 
 
-    this.reportesService.ObtenerPropinaReporteFiltro(2025, 5, 21).subscribe((data) => {
+    this.reportesService.ObtenerPropinaReporteFiltro(year, month, day).subscribe((data) => {
       // Extraer nombres y cantidades
       const labels = data.map((item: any) => item.nom_moz);
       const valores = data.map((item: any) => item.propina);

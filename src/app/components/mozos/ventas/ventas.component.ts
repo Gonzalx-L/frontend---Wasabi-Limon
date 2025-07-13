@@ -9,7 +9,7 @@ import { OrdenService, OrdenResumenDTO, ResumenPedidoDTO, DetalleDTO } from '../
 })
 export class VentasComponent implements OnInit {
 
-  codMoz = '0001'; // por ejemplo, mozo fijo
+  codMoz = localStorage.getItem('codMozo') || '0000';
   estado = 'PAGADO'; // estado a filtrar
   ordenes: OrdenResumenDTO[] = [];
   error = '';

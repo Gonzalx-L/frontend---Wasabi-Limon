@@ -1,0 +1,30 @@
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Grafico Comparativo
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <form class="row g-3" [formGroup]="filtroForm" (ngSubmit)="generarGrafico()">
+                    
+                    <div class="col-md-3">
+                        <label for="fechaInicio" class="form-label">Año</label>
+                        <input type="number" class="form-control" id="year" formControlName="year">
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-filtrar col-sm-12">Aplicar</button>
+                    </div>
+                </form>
+                <div class="container-graficos" [ngClass]="{ 'activo': graficoListo }">
+                    <canvas #chartCanvasGraficoComparativo class="comparativo-grafico"></canvas>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

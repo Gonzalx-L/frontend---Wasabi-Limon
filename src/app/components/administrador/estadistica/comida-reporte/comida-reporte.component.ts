@@ -25,8 +25,8 @@ export class ComidaReporteComponent implements AfterViewInit {
   public chartMonth: Chart | undefined;
   public chartYear: Chart | undefined;
   year: number = new Date().getFullYear();
-  fechSelect: string = '';
-  monthSelect: string = '';
+  fechSelect: string = this.getFechaActualFormatoDate();
+  monthSelect: string = this.getFechaActualFormatoMonth();
   opcionSeleccionada: 'mas-vendidas' | 'menos-vendidas' = 'mas-vendidas';
 
 
@@ -46,6 +46,21 @@ export class ComidaReporteComponent implements AfterViewInit {
   valYear() {
     if (this.year < 2000) this.year = 2000;
     if (this.year > 2099) this.year = 2099;
+  }
+
+  getFechaActualFormatoDate(): string {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoy.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  getFechaActualFormatoMonth(): string {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    return `${yyyy}-${mm}`;
   }
 
   ngAfterViewInit(): void {
@@ -108,6 +123,14 @@ export class ComidaReporteComponent implements AfterViewInit {
     this.graficoYear(this.year);
   }
 
+  //Alterar el orden de los datos para hacer el grafico más dinamico
+  mezclarArray<T>(array: T[]): T[] {
+    return array
+      .map(value => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+  }
+
   //Graficos
   graficoDaY(year: number, month: number, day: number) {
     const canvas = this.canvasDay.nativeElement;
@@ -122,8 +145,9 @@ export class ComidaReporteComponent implements AfterViewInit {
       : this.reportesService.obtenerComidaReporteMenor(year, month, day);
 
     obs.subscribe((data) => {
-      const labels = data.map((item: any) => item.nom_com);
-      const valores = data.map((item: any) => item.cantidad_pedida);
+      const datosMezclados = this.mezclarArray(data);
+      const labels = datosMezclados.map((item: any) => item.nom_com);
+      const valores = datosMezclados.map((item: any) => item.cantidad_pedida);
 
       this.chartDay = new Chart(canvas, {
         type: 'line',
@@ -138,12 +162,30 @@ export class ComidaReporteComponent implements AfterViewInit {
               borderColor: 'rgba(54, 162, 235, 1)',
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               borderWidth: 2,
+              pointRadius: 4,            // 👈 Aumenta visibilidad del punto
+              pointHoverRadius: 3       // 👈 Mejora detección del hover
             },
           ],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          plugins: {
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function (context) {
+                  const label = context.chart.data.labels?.[context.dataIndex] || '';
+                  const value = context.dataset.data?.[context.dataIndex] || 0;
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          },
           scales: {
             x: {
               ticks: {
@@ -210,17 +252,25 @@ export class ComidaReporteComponent implements AfterViewInit {
               data: valores,
               backgroundColor: backgroundColors.slice(0, valores.length),
               borderWidth: 1,
+              hoverOffset: 10,              // 👈 Mejora interacción al pasar mouse
+              hoverBorderWidth: 4,          // 👈 Borde más grueso al hacer hover
             },
           ],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: {
+            mode: 'nearest',
+            axis: 'xy',
+            intersect: true
+          },
           plugins: {
             legend: {
               position: 'top',
             },
             tooltip: {
+              enabled: true,
               callbacks: {
                 label: function (context) {
                   const label = context.label || '';
@@ -230,7 +280,7 @@ export class ComidaReporteComponent implements AfterViewInit {
               },
             },
           },
-        },
+        }
       });
     });
   }
@@ -272,17 +322,25 @@ export class ComidaReporteComponent implements AfterViewInit {
               data: valores,
               backgroundColor: backgroundColors.slice(0, valores.length),
               borderWidth: 1,
+              hoverOffset: 10,              // 👈 Mejora interacción al pasar mouse
+              hoverBorderWidth: 4,          // 👈 Borde más grueso al hacer hover
             },
           ],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: {
+            mode: 'nearest',
+            axis: 'xy',
+            intersect: true
+          },
           plugins: {
             legend: {
               position: 'top',
             },
             tooltip: {
+              enabled: true,
               callbacks: {
                 label: function (context) {
                   const label = context.label || '';
@@ -292,13 +350,13 @@ export class ComidaReporteComponent implements AfterViewInit {
               },
             },
           },
-        },
+        }
       });
     });
   }
 
   refrescarGraficos() {
-    this.redibujarGraficos(); // ya tienes este método implementado
+    this.redibujarGraficos();
   }
 
   redibujarGraficos() {

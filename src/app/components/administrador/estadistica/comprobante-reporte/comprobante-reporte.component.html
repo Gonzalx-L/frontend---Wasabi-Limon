@@ -1,1 +1,41 @@
-<p>comprobante-reporte works!</p>
+<div class="comida-reporte">
+    <h1>Comprobante Reporte</h1>
+    <div class="contanier-filtros">
+        <app-filtros-compro class="app-filtros"></app-filtros-compro>
+    </div>
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="graficos col-12 col-md-6 col-xl-4">
+                <div class="contanier-graficos">
+                    <h2>Grafico Por Día</h2>
+                    <div class="inputinfo">
+                        <input type="date" [(ngModel)]="fechSelect">
+                        <i class="fa-solid fa-arrow-right-to-bracket" (click)="fecGraf()"></i>
+                    </div>
+                    <canvas #chartCanvasGraficoDay class="day-grafico"></canvas>
+                </div>
+            </div>
+            <div class="graficos col-12 col-md-6 col-xl-4">
+                <div class="contanier-graficos">
+                    <h2>Grafico Por Mes</h2>
+                    <div class="inputinfo">
+                        <input type="month" [(ngModel)]="monthSelect">
+                        <i class="fa-solid fa-arrow-right-to-bracket" (click)="monthGraf()"></i>
+                    </div>
+                    <canvas #chartCanvasGraficoMonth class="month-grafico"></canvas>
+                </div>
+            </div>
+            <div class="graficos col-12 col-md-6 col-xl-4">
+                <div class="contanier-graficos">
+                    <h2>Grafico Por Año</h2>
+                    <div class="inputinfo">
+                        <input type="number" [(ngModel)]="year" (blur)="valYear()" min="2000" max="2099"
+                            placeholder="Año">
+                        <i class="fa-solid fa-arrow-right-to-bracket" (click)="yearGraf()"></i>
+                    </div>
+                    <canvas #chartCanvasGraficoYear class="year-grafico"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
